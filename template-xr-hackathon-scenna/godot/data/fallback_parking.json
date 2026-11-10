@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Passo Sella",
+    "value": 33,
+    "capacity": 199,
+    "unit": "free spaces",
+    "status": "limited",
+    "description": "Offline sample: 33 of 199 parking spaces are free."
+  },
+  {
+    "name": "Plan de Gralba",
+    "value": 351,
+    "capacity": 400,
+    "unit": "free spaces",
+    "status": "available",
+    "description": "Offline sample: 351 of 400 parking spaces are free."
+  },
+  {
+    "name": "Parcheggio Sciuz",
+    "value": 21,
+    "capacity": 82,
+    "unit": "free spaces",
+    "status": "available",
+    "description": "Offline sample: 21 of 82 parking spaces are free."
+  },
+  {
+    "name": "Parcheggio Vallunga",
+    "value": 22,
+    "capacity": 109,
+    "unit": "free spaces",
+    "status": "limited",
+    "description": "Offline sample: 22 of 109 parking spaces are free."
+  },
+  {
+    "name": "Passo Gardena",
+    "value": 0,
+    "capacity": 500,
+    "unit": "free spaces",
+    "status": "full",
+    "description": "Offline sample: no parking spaces are free."
+  },
+  {
+    "name": "Garage Dantercëpies",
+    "value": 28,
+    "capacity": 500,
+    "unit": "free spaces",
+    "status": "limited",
+    "description": "Offline sample: 28 of 500 parking spaces are free."
+  }
+]

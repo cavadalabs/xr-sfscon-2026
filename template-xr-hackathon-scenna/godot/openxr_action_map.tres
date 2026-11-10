@@ -1,0 +1,46 @@
+[gd_resource type="OpenXRActionMap" format=3 uid="uid://cfreg8ug2qqba"]
+
+[sub_resource type="OpenXRAction" id="OpenXRAction_select"]
+resource_name = "select"
+localized_name = "Select"
+action_type = 0
+toplevel_paths = PackedStringArray("/user/hand/right")
+
+[sub_resource type="OpenXRAction" id="OpenXRAction_aim"]
+resource_name = "aim"
+localized_name = "Aim pose"
+action_type = 3
+toplevel_paths = PackedStringArray("/user/hand/right")
+
+[sub_resource type="OpenXRActionSet" id="OpenXRActionSet_dashboard"]
+resource_name = "dashboard"
+localized_name = "Dashboard controls"
+actions = [SubResource("OpenXRAction_select"), SubResource("OpenXRAction_aim")]
+
+[sub_resource type="OpenXRIPBinding" id="OpenXRIPBinding_select"]
+action = SubResource("OpenXRAction_select")
+binding_path = "/user/hand/right/input/select/click"
+
+[sub_resource type="OpenXRIPBinding" id="OpenXRIPBinding_aim"]
+action = SubResource("OpenXRAction_aim")
+binding_path = "/user/hand/right/input/aim/pose"
+
+[sub_resource type="OpenXRInteractionProfile" id="OpenXRInteractionProfile_simple"]
+interaction_profile_path = "/interaction_profiles/khr/simple_controller"
+bindings = [SubResource("OpenXRIPBinding_select"), SubResource("OpenXRIPBinding_aim")]
+
+[sub_resource type="OpenXRIPBinding" id="OpenXRIPBinding_hand_select"]
+action = SubResource("OpenXRAction_select")
+binding_path = "/user/hand/right/input/pinch_ext/value"
+
+[sub_resource type="OpenXRIPBinding" id="OpenXRIPBinding_hand_aim"]
+action = SubResource("OpenXRAction_aim")
+binding_path = "/user/hand/right/input/aim/pose"
+
+[sub_resource type="OpenXRInteractionProfile" id="OpenXRInteractionProfile_hand"]
+interaction_profile_path = "/interaction_profiles/ext/hand_interaction_ext"
+bindings = [SubResource("OpenXRIPBinding_hand_select"), SubResource("OpenXRIPBinding_hand_aim")]
+
+[resource]
+action_sets = [SubResource("OpenXRActionSet_dashboard")]
+interaction_profiles = [SubResource("OpenXRInteractionProfile_simple"), SubResource("OpenXRInteractionProfile_hand")]

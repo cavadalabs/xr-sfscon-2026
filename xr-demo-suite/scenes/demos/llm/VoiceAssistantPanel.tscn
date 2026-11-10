@@ -1,0 +1,204 @@
+[gd_scene format=3 uid="uid://o6t5temht7ei"]
+
+[ext_resource type="Script" path="res://scripts/demos/llm/voice_assistant_panel.gd" id="1_panel"]
+[ext_resource type="Script" path="res://scripts/ui/fitted_label_3d.gd" id="2_fitted_label"]
+[ext_resource type="Material" path="res://assets/materials/ui/status_badge.tres" id="3_status_badge"]
+[ext_resource type="Material" path="res://assets/materials/ui/status_orb.tres" id="4_status_orb"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_panel.tres" id="5_panel_material"]
+[ext_resource type="Script" path="res://scripts/demos/llm/voice_assistant_status_profile.gd" id="7_status_profile"]
+[ext_resource type="PackedScene" uid="uid://dhi3d247aeyn7" path="res://scenes/ui/XRPanelDragHandle3D.tscn" id="drag"]
+[ext_resource type="PackedScene" path="res://assets/models/ui/studio_info_frame.glb" id="frame"]
+
+[sub_resource type="QuadMesh" id="panel"]
+size = Vector2(2.18, 2.14)
+
+[sub_resource type="QuadMesh" id="status"]
+size = Vector2(0.98, 0.20)
+
+[sub_resource type="SphereMesh" id="orb"]
+radius = 0.021
+height = 0.042
+
+[node name="VoiceAssistantPanel" type="Node3D" unique_id=984568267]
+script = ExtResource("1_panel")
+
+[node name="GlassPanel" type="MeshInstance3D" parent="."]
+mesh = SubResource("panel")
+surface_material_override/0 = ExtResource("5_panel_material")
+
+[node name="Frame" parent="." instance=ExtResource("frame")]
+scale = Vector3(0.90833, 1.18889, 1)
+
+[node name="SectionLabel" type="Label3D" parent="."]
+position = Vector3(-0.94, 0.96, 0.04)
+script = ExtResource("2_fitted_label")
+text = "NOI / ASSISTENTE XR"
+font_size = 21
+max_font_size = 21
+min_font_size = 18
+pixel_size = 0.00165
+max_chars_per_line = 44
+max_lines = 1
+horizontal_alignment = 0
+vertical_alignment = 1
+outline_size = 0
+modulate = Color(0.6, 0.87, 0.8, 1)
+
+[node name="TitleLabel" type="Label3D" parent="."]
+position = Vector3(-0.94, 0.76, 0.04)
+script = ExtResource("2_fitted_label")
+text = "La conoscenza, a voce."
+font_size = 40
+max_font_size = 40
+min_font_size = 36
+pixel_size = 0.002
+max_chars_per_line = 30
+max_lines = 1
+horizontal_alignment = 0
+vertical_alignment = 1
+outline_size = 0
+modulate = Color(1, 1, 1, 1)
+
+[node name="HintLabel" type="Label3D" parent="."]
+position = Vector3(-0.94, 0.6, 0.04)
+script = ExtResource("2_fitted_label")
+text = "Parla naturalmente. Un’immagine viene inviata se serve."
+font_size = 22
+max_font_size = 22
+min_font_size = 18
+pixel_size = 0.0016
+max_chars_per_line = 58
+max_lines = 1
+horizontal_alignment = 0
+vertical_alignment = 1
+outline_size = 0
+modulate = Color(0.86, 0.9, 0.95, 1)
+
+[node name="BodyLabel" type="Label3D" parent="."]
+position = Vector3(-0.94, 0.42, 0.04)
+script = ExtResource("2_fitted_label")
+text = "Chiedimi quello che vuoi. Posso guardare cosa stai vedendo e rispondere su prodotti e ambienti del NOI Tech Park."
+font_size = 30
+max_font_size = 30
+min_font_size = 26
+pixel_size = 0.0021
+max_chars_per_line = 47
+max_lines = 7
+horizontal_alignment = 0
+vertical_alignment = 0
+outline_size = 0
+modulate = Color(0.86, 0.9, 0.95, 1)
+
+[node name="StatusProfiles" type="Node" parent="."]
+
+[node name="Starting" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("starting")
+label_text = "AVVIO"
+
+[node name="Connecting" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("connecting", "connected")
+label_text = "CONNESSIONE"
+color = Color(0.32, 0.58, 0.95, 1)
+emission = 0.32
+orb_scale = 1.08
+
+[node name="Listening" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("listening")
+label_text = "IN ASCOLTO"
+color = Color(0.3, 0.78, 0.55, 1)
+emission = 0.32
+
+[node name="Camera" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("camera")
+label_text = "FOTOCAMERA"
+color = Color(0.32, 0.58, 0.95, 1)
+emission = 0.42
+orb_scale = 1.12
+
+[node name="Capture" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("capturing")
+label_text = "ACQUISIZIONE"
+color = Color(0.32, 0.58, 0.95, 1)
+emission = 0.42
+orb_scale = 1.12
+
+[node name="Thinking" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("preparing", "snapshot sent", "thinking", "transcribing")
+label_text = "ELABORAZIONE"
+color = Color(0.32, 0.58, 0.95, 1)
+emission = 0.42
+orb_scale = 1.12
+
+[node name="Looking" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("looking")
+label_text = "ANALISI VISIVA"
+color = Color(0.32, 0.58, 0.95, 1)
+emission = 0.42
+orb_scale = 1.12
+
+[node name="Speaking" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("speaking")
+label_text = "RISPOSTA VOCALE"
+color = Color(0.72, 0.44, 0.95, 1)
+emission = 0.58
+orb_scale = 1.22
+
+[node name="Interrupted" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("interrupted")
+label_text = "INTERROTTO"
+color = Color(0.95, 0.68, 0.24, 1)
+emission = 0.5
+orb_scale = 1.18
+
+[node name="Error" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("error")
+label_text = "ERRORE"
+color = Color(0.95, 0.35, 0.25, 1)
+emission = 0.42
+orb_scale = 1.12
+
+[node name="Offline" type="Node" parent="StatusProfiles"]
+script = ExtResource("7_status_profile")
+status_names = PackedStringArray("offline")
+label_text = "SERVER OFFLINE"
+color = Color(0.95, 0.68, 0.24, 1)
+
+[node name="StatusOrb" type="MeshInstance3D" parent="."]
+position = Vector3(-0.89, -0.85, 0.09)
+mesh = SubResource("orb")
+surface_material_override/0 = ExtResource("4_status_orb")
+
+[node name="StatusBadge" type="MeshInstance3D" parent="."]
+position = Vector3(-0.43, -0.85, 0.025)
+mesh = SubResource("status")
+surface_material_override/0 = ExtResource("3_status_badge")
+
+[node name="StatusLabel" type="Label3D" parent="."]
+position = Vector3(-0.38, -0.85, 0.04)
+script = ExtResource("2_fitted_label")
+text = "AVVIO"
+font_size = 23
+max_font_size = 23
+min_font_size = 19
+pixel_size = 0.0016
+max_chars_per_line = 20
+max_lines = 1
+horizontal_alignment = 1
+vertical_alignment = 1
+outline_size = 0
+modulate = Color(0.86, 0.9, 0.95, 1)
+
+[node name="DragHandle" parent="." instance=ExtResource("drag")]
+position = Vector3(0, -1.20, 0.07)
+panel_size = Vector2(2.18, 2.6)
+present_on_show = false

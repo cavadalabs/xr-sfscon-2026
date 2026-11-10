@@ -1,0 +1,195 @@
+[gd_scene format=3 uid="uid://cnimbc31fytvg"]
+
+[ext_resource type="Script" uid="uid://03wjrchb6kw4" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://d4lns41ltx2er" path="res://scripts/data_source.gd" id="2_source"]
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 1
+background_color = Color(0.012, 0.018, 0.032, 0)
+ambient_light_source = 1
+ambient_light_color = Color(0.72, 0.78, 0.9, 1)
+ambient_light_energy = 1.1
+
+[sub_resource type="StandardMaterial3D" id="Material_pointer"]
+albedo_color = Color(0.3, 0.85, 1, 1)
+emission_enabled = true
+emission = Color(0.3, 0.85, 1, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_pointer"]
+material = SubResource("Material_pointer")
+size = Vector3(0.008, 0.008, 5)
+
+[sub_resource type="StandardMaterial3D" id="Material_header"]
+albedo_color = Color(0.055, 0.12, 0.18, 1)
+roughness = 0.78
+
+[sub_resource type="BoxMesh" id="Mesh_header"]
+material = SubResource("Material_header")
+size = Vector3(3.45, 0.28, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="Material_detail"]
+albedo_color = Color(0.045, 0.065, 0.095, 1)
+roughness = 0.84
+
+[sub_resource type="BoxMesh" id="Mesh_detail"]
+material = SubResource("Material_detail")
+size = Vector3(0.98, 1.28, 0.04)
+
+[node name="Main" type="Node3D" unique_id=2103249530]
+script = ExtResource("1_main")
+
+[node name="DataSource" type="Node" parent="." unique_id=960269333]
+unique_name_in_owner = true
+script = ExtResource("2_source")
+
+[node name="DataSourceRefreshTimer" type="Timer" parent="." unique_id=1553426444]
+wait_time = 5.0
+autostart = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=256522194]
+environment = SubResource("Environment_main")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1535452286]
+transform = Transform3D(0.90630776, 0.24240388, -0.34618863, 0, 0.81915206, 0.57357645, 0.42261827, -0.5198368, 0.74240386, 0, 0, 0)
+light_energy = 1.1
+shadow_enabled = true
+
+[node name="DataRequest" type="HTTPRequest" parent="." unique_id=336517856]
+unique_name_in_owner = true
+timeout = 6.0
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=465127214]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1324141244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+current = true
+
+[node name="RightHandPointer" type="XRController3D" parent="XROrigin3D" unique_id=1974634033]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.15, -0.5)
+tracker = &"right_hand"
+pose = &"aim"
+
+[node name="XRRay" type="RayCast3D" parent="XROrigin3D/RightHandPointer" unique_id=1807553999]
+unique_name_in_owner = true
+enabled = false
+target_position = Vector3(0, 0, -5)
+collide_with_areas = true
+
+[node name="XRPointer" type="MeshInstance3D" parent="XROrigin3D/RightHandPointer" unique_id=20199605]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+visible = false
+cast_shadow = 0
+mesh = SubResource("Mesh_pointer")
+
+[node name="Dashboard" type="Node3D" parent="." unique_id=1043011377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, -2.5)
+
+[node name="Header" type="MeshInstance3D" parent="Dashboard" unique_id=1140461369]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0.97, 0)
+mesh = SubResource("Mesh_header")
+
+[node name="DatasetTitle" type="Label3D" parent="Dashboard" unique_id=1013438340]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 1.025, 0.035)
+pixel_size = 0.00155
+text = "Val Gardena parking"
+font_size = 40
+outline_size = 10
+width = 2000.0
+
+[node name="SourceLabel" type="Label3D" parent="Dashboard" unique_id=882701569]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27, 0.91, 0.035)
+pixel_size = 0.001
+modulate = Color(0.55, 0.75, 0.95, 1)
+text = "CONNECTING TO OPEN DATA HUB…"
+font_size = 21
+outline_size = 7
+width = 1700.0
+
+[node name="CardSlots" type="Node3D" parent="Dashboard" unique_id=640417090]
+unique_name_in_owner = true
+
+[node name="Slot01" type="Marker3D" parent="Dashboard/CardSlots" unique_id=994850348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.35, 0)
+
+[node name="Slot02" type="Marker3D" parent="Dashboard/CardSlots" unique_id=1942557164]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46, 0.35, 0)
+
+[node name="Slot03" type="Marker3D" parent="Dashboard/CardSlots" unique_id=290588137]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0.35, 0)
+
+[node name="Slot04" type="Marker3D" parent="Dashboard/CardSlots" unique_id=76802120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, -0.33, 0)
+
+[node name="Slot05" type="Marker3D" parent="Dashboard/CardSlots" unique_id=2115361786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46, -0.33, 0)
+
+[node name="Slot06" type="Marker3D" parent="Dashboard/CardSlots" unique_id=1877175814]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, -0.33, 0)
+
+[node name="DetailPanel" type="Node3D" parent="Dashboard" unique_id=1323043439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15, 0.02, 0)
+
+[node name="Background" type="MeshInstance3D" parent="Dashboard/DetailPanel" unique_id=894666296]
+mesh = SubResource("Mesh_detail")
+
+[node name="DetailName" type="Label3D" parent="Dashboard/DetailPanel" unique_id=1089722739]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42367983, 0.47000003, 0.035000086)
+pixel_size = 0.0014
+text = "Waiting for live data"
+font_size = 34
+outline_size = 10
+horizontal_alignment = 0
+autowrap_mode = 2
+width = 585.0
+
+[node name="DetailValue" type="Label3D" parent="Dashboard/DetailPanel" unique_id=1699684315]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42367983, 0.28499997, 0.035000086)
+pixel_size = 0.00125
+modulate = Color(0.8, 0.84, 0.9, 1)
+text = "Connecting to live data…"
+font_size = 27
+outline_size = 8
+horizontal_alignment = 0
+width = 650.0
+
+[node name="DetailStatus" type="Label3D" parent="Dashboard/DetailPanel" unique_id=266931902]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42367983, 0.13999999, 0.035000086)
+pixel_size = 0.00125
+modulate = Color(0.65, 0.76, 0.86, 1)
+font_size = 27
+outline_size = 8
+horizontal_alignment = 0
+width = 650.0
+
+[node name="DetailDescription" type="Label3D" parent="Dashboard/DetailPanel" unique_id=1367026569]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42367983, -0.14999998, 0.035000086)
+pixel_size = 0.00125
+text = "A local sample appears automatically if the request fails."
+font_size = 27
+outline_size = 8
+horizontal_alignment = 0
+vertical_alignment = 0
+autowrap_mode = 2
+width = 650.0
+
+[node name="InteractionHint" type="Label3D" parent="Dashboard/DetailPanel" unique_id=1555972732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.42367983, -0.54999995, 0.035000086)
+pixel_size = 0.001
+modulate = Color(0.55, 0.7, 0.82, 1)
+text = "XR: right hand point + pinch  ·  Desktop: click"
+font_size = 22
+outline_size = 7
+horizontal_alignment = 0
+width = 760.0
+
+[connection signal="timeout" from="DataSourceRefreshTimer" to="." method="_on_timer_timeout"]
+[connection signal="request_completed" from="DataRequest" to="." method="_on_data_request_completed"]
+[connection signal="button_pressed" from="XROrigin3D/RightHandPointer" to="." method="_on_right_hand_button_pressed"]

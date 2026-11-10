@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://drb1ocec271rm"]
+
+[ext_resource type="Script" path="res://scripts/demos/opendata/noi_map.gd" id="1_map"]
+[ext_resource type="PackedScene" uid="uid://brmlei3026hk1" path="res://scenes/ui/DemoButton3D.tscn" id="2_button"]
+
+[sub_resource type="BoxMesh" id="Base"]
+size = Vector3(2.04, 0.028, 2.04)
+[sub_resource type="StandardMaterial3D" id="BaseMaterial"]
+albedo_color = Color(0.018, 0.032, 0.042, 1)
+roughness = 0.85
+
+[node name="NoiMap" type="Node3D"]
+script = ExtResource("1_map")
+[node name="MapBase" type="MeshInstance3D" parent="."]
+mesh = SubResource("Base")
+material_override = SubResource("BaseMaterial")
+[node name="MapTitleLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.76, -0.94)
+pixel_size = 0.0018
+font_size = 38
+outline_size = 5
+text = "Caricamento campus…"
+[node name="LegendLabel" type="Label3D" parent="."]
+position = Vector3(0, 0.2, -0.94)
+pixel_size = 0.0014
+font_size = 27
+outline_size = 5
+text = "Verifica delle misure…"
+modulate = Color(0.7, 0.85, 0.89, 1)
+[node name="ProvenanceLabel" type="Label3D" parent="."]
+position = Vector3(0, -0.06, 1.03)
+pixel_size = 0.00105
+font_size = 24
+outline_size = 4
+text = "Ricostruzione del campus NOI"
+modulate = Color(0.62, 0.72, 0.78, 1)
+[node name="Controls" type="Node3D" parent="."]
+[node name="Select_campus" parent="Controls" instance=ExtResource("2_button")]
+transform = Transform3D(0.44, 0, 0, 0, 0.56, 0, 0, 0, 0.56, -1.44, -0.35, 0.05)
+demo_id = "campus"
+title_text = "Campus"
+
+[node name="TitleLabel" parent="Controls/Select_campus" index="1"]
+max_chars_per_line = 22
+
+[node name="SubtitleLabel" parent="Controls/Select_campus" index="2"]
+max_chars_per_line = 26
+
+[node name="Select_open" parent="Controls" instance=ExtResource("2_button")]
+transform = Transform3D(0.44, 0, 0, 0, 0.56, 0, 0, 0, 0.56, -0.7, -0.35, 0.05)
+demo_id = "open"
+title_text = "Apri A1"
+
+[node name="TitleLabel" parent="Controls/Select_open" index="1"]
+max_chars_per_line = 22
+
+[node name="SubtitleLabel" parent="Controls/Select_open" index="2"]
+max_chars_per_line = 26
+
+[node name="Select_colors" parent="Controls" instance=ExtResource("2_button")]
+transform = Transform3D(0.66, 0, 0, 0, 0.56, 0, 0, 0, 0.56, -1.07, -0.6, 0.05)
+demo_id = "colors"
+title_text = "Colori"
+
+[node name="TitleLabel" parent="Controls/Select_colors" index="1"]
+max_chars_per_line = 22
+
+[node name="SubtitleLabel" parent="Controls/Select_colors" index="2"]
+max_chars_per_line = 26
+
+[node name="Select_previous" parent="Controls" instance=ExtResource("2_button")]
+transform = Transform3D(0.66, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 0.23, -0.63, 0.05)
+demo_id = "previous"
+title_text = "Piano −"
+
+[node name="TitleLabel" parent="Controls/Select_previous" index="1"]
+max_chars_per_line = 22
+
+[node name="SubtitleLabel" parent="Controls/Select_previous" index="2"]
+max_chars_per_line = 26
+
+[node name="Select_next" parent="Controls" instance=ExtResource("2_button")]
+transform = Transform3D(0.66, 0, 0, 0, 0.56, 0, 0, 0, 0.56, 1.35, -0.63, 0.05)
+demo_id = "next"
+title_text = "Piano +"
+
+[node name="TitleLabel" parent="Controls/Select_next" index="1"]
+max_chars_per_line = 22
+
+[node name="SubtitleLabel" parent="Controls/Select_next" index="2"]
+max_chars_per_line = 26
+
+[node name="SelectionRoot" type="Node3D" parent="."]

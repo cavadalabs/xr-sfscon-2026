@@ -1,0 +1,75 @@
+Source-Available License 1.0 (SAL-1.0)
+
+Copyright (c) 2026 the Software's copyright holder
+
+Purpose
+
+This license makes the source code of this repository openly readable and
+usable for learning, evaluation and private work, while keeping commercial
+and public redistribution under the control of the copyright holder.
+
+1. Definitions
+
+   "the Software" means the source code, scripts, configuration and original
+   project content of this repository, excluding any third-party material
+   identified in THIRD_PARTY.md.
+
+   "Public Redistribution" means distributing, publishing, hosting for
+   download, or otherwise making the Software, or a substantial part of it,
+   available to any third party.
+
+   "Commercial Use" means providing the Software, a modified version of it,
+   or a service built primarily on it, to third parties in exchange for
+   money or other consideration, or incorporating it into a product offered
+   to third parties.
+
+2. Grant of rights
+
+   You may, free of charge and without asking:
+
+   a) read, run and study the Software;
+   b) copy it for your own private use, on machines you control, including
+      your own company's internal use;
+   c) modify it privately to suit your needs;
+   d) publish small excerpts (e.g. code snippets in a blog post, question or
+      answer) with attribution to the original authors and a link to this
+      repository;
+   e) use outputs you generate with the Software (renders, builds, data)
+      without restriction.
+
+3. Restrictions
+
+   Without prior written permission from the copyright holder, you may not:
+
+   a) publicly redistribute the Software or substantial modified copies of it
+      (forks published for distribution, mirrors, package-registry uploads);
+   b) make Commercial Use of the Software;
+   c) remove or alter copyright notices, the LICENSE file or THIRD_PARTY.md;
+   d) use the licensor's name or marks to promote derivative works.
+
+   Requesting permission: open an issue in this repository.
+
+4. Third-party material
+
+   Files listed in THIRD_PARTY.md, and anything under an addons/ or
+   vendor/ directory, remain under their own licenses. Nothing here limits
+   your rights under those licenses. Third-party assets whose license
+   requires attribution (e.g. CC-BY-4.0) must be attributed as that license
+   demands; where our records note a missing author, resolve attribution
+   before redistributing those assets.
+
+5. No warranty
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+
+6. Changes to this license
+
+   The licensor may release new versions of this license for future releases
+   of the Software. You may continue to use each release under the version
+   it shipped with.

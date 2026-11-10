@@ -1,0 +1,91 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/data_card.gd" id="1_card"]
+
+[sub_resource type="StandardMaterial3D" id="Material_card"]
+resource_name = "Card Background"
+albedo_color = Color(0.04, 0.065, 0.095, 1)
+roughness = 0.82
+
+[sub_resource type="BoxMesh" id="Mesh_card"]
+material = SubResource("Material_card")
+size = Vector3(0.46, 0.62, 0.035)
+
+[sub_resource type="StandardMaterial3D" id="Material_track"]
+albedo_color = Color(0.1, 0.15, 0.2, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="Mesh_track"]
+material = SubResource("Material_track")
+size = Vector3(0.28, 0.24, 0.018)
+
+[sub_resource type="StandardMaterial3D" id="Material_value"]
+resource_name = "Data Bar"
+albedo_color = Color(0.949, 0.722, 0.294, 1)
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="Mesh_value"]
+size = Vector3(0.28, 1, 0.024)
+
+[sub_resource type="BoxShape3D" id="Shape_card"]
+size = Vector3(0.46, 0.62, 0.08)
+
+[node name="DataCard" type="Node3D"]
+script = ExtResource("1_card")
+background_material = SubResource("Material_card")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("Mesh_card")
+
+[node name="BarTrack" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.02, 0.032)
+mesh = SubResource("Mesh_track")
+
+[node name="ValueBar" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, -0.04, 0.046)
+scale = Vector3(1, 0.12, 1)
+material_override = SubResource("Material_value")
+mesh = SubResource("Mesh_value")
+
+[node name="NameLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0.245, 0.035)
+pixel_size = 0.00125
+font_size = 28
+outline_size = 9
+text = "Item name"
+width = 310.0
+height = 76.0
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ValueLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, -0.155, 0.035)
+pixel_size = 0.00155
+font_size = 38
+outline_size = 10
+text = "33 units"
+width = 250.0
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, -0.245, 0.035)
+modulate = Color(0.949, 0.722, 0.294, 1)
+pixel_size = 0.001
+font_size = 21
+outline_size = 8
+text = "LIMITED · MAX 199"
+width = 340.0
+horizontal_alignment = 1
+
+[node name="SelectArea" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SelectArea"]
+shape = SubResource("Shape_card")
+
+[connection signal="input_event" from="SelectArea" to="." method="_on_select_area_input_event"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/xr/scene_anchor_visual.gd" id="1_scene_anchor"]
+
+[node name="SceneAnchor" type="StaticBody3D"]
+collision_layer = 8388608
+collision_mask = 0
+input_ray_pickable = false
+visible = false
+script = ExtResource("1_scene_anchor")
+
+[node name="SemanticLabel" type="Label3D" parent="."]
+visible = false
+pixel_size = 0.002
+font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Scene"

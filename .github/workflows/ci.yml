@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  server:
+    name: xr-demo-server (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: pytest
+        working-directory: xr-demo-server
+        run: uv run --extra dev python -m pytest -q
+
+  suite-import:
+    name: xr-demo-suite (Godot 4.7 headless import)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installa dipendenze di sistema per Godot
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libgl1 libxcursor1 libxinerama1 libxrandr2 libxi6 \
+            libxkbcommon0 libasound2t64 fontconfig unzip
+
+      - name: Scarica Godot 4.7-stable
+        run: |
+          curl -sSL -o godot.zip \
+            https://github.com/godotengine/godot/releases/download/4.7-stable/Godot_v4.7-stable_linux.x86_64.zip
+          unzip -q godot.zip
+          mv Godot_v4.7-stable_linux.x86_64 godot
+          chmod +x godot
+
+      - name: Import del progetto (catch missing/renamed resources)
+        working-directory: xr-demo-suite
+        run: |
+          ./godot --headless --import . > godot-import.log 2>&1 || true
+          if grep -E "ERROR: (Cannot open file|Parse Error|Can't load)" godot-import.log; then
+            echo "--- log ---"; tail -n 80 godot-import.log; exit 1
+          fi
+          tail -n 5 godot-import.log

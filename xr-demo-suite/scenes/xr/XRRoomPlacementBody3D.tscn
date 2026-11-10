@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dhjimtb044ldy"]
+
+[ext_resource type="Script" uid="uid://7idvnutqryex" path="res://scripts/xr/xr_room_placement_body_3d.gd" id="1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_body"]
+size = Vector3(1, 1, 1)
+
+[node name="XRRoomPlacementBody3D" type="CharacterBody3D"]
+collision_layer = 0
+collision_mask = 16777216
+script = ExtResource("1")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_body")

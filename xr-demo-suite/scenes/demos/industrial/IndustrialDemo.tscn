@@ -1,0 +1,303 @@
+[gd_scene load_steps=23 format=3 uid="uid://bj2gnqg5w5ske"]
+
+[ext_resource type="Script" uid="uid://bxu54g75r8e1c" path="res://scripts/demos/industrial_demo.gd" id="1_demo"]
+[ext_resource type="PackedScene" uid="uid://bjetehldprj8s" path="res://scenes/demos/industrial/IndustrialModelViewer.tscn" id="2_viewer"]
+[ext_resource type="Script" path="res://scripts/ui/info_panel_3d.gd" id="3_info"]
+[ext_resource type="PackedScene" uid="uid://brmlei3026hk1" path="res://scenes/ui/DemoButton3D.tscn" id="4_button"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialCatalogPanel.tscn" id="5_wrist"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialCatalog.tscn" id="7_catalog"]
+[ext_resource type="PackedScene" uid="uid://dyo6mhmdixcod" path="res://scenes/xr/XRPlacementPreview3D.tscn" id="8_placement"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialQRController.tscn" id="9_qr_controller"]
+[ext_resource type="PackedScene" path="res://scenes/ui/WristMenuFollower3D.tscn" id="10_wrist_follower"]
+[ext_resource type="PackedScene" path="res://scenes/xr/XRPlacementController3D.tscn" id="11_placement_controller"]
+[ext_resource type="PackedScene" path="res://scenes/xr/XRModelRotationController3D.tscn" id="12_rotation_controller"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelPlacementController.tscn" id="13_model_placement"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelLoadingController.tscn" id="14_model_loading"]
+[ext_resource type="Material" path="res://assets/materials/ui/studio_surface.tres" id="15_panel_material"]
+[ext_resource type="Script" path="res://scripts/ui/fitted_label_3d.gd" id="17_fitted_label"]
+[ext_resource type="PackedScene" path="res://assets/models/ui/studio_info_frame.glb" id="18_frame"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/SharedLobbyPanel.tscn" id="20_lobby"]
+[ext_resource type="Script" path="res://scripts/demos/industrial/default_furniture.gd" id="21_default_furniture"]
+
+[sub_resource type="QuadMesh" id="BoxMesh_info_panel"]
+size = Vector2(2.4, 1.8)
+
+[sub_resource type="QuadMesh" id="QuadMesh_info_close"]
+size = Vector2(0.32, 0.32)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_info_close"]
+size = Vector3(0.38, 0.38, 0.16)
+
+[node name="IndustrialDemo" type="Node3D" unique_id=1994431581]
+script = ExtResource("1_demo")
+
+[node name="EditorHandles" type="Node3D" parent="."]
+
+[node name="WristMenuPose" type="Marker3D" parent="EditorHandles"]
+transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0.005, 0.205, 0.06)
+
+[node name="FallbackMenuPose" type="Marker3D" parent="EditorHandles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.32, -0.04, -0.78)
+
+[node name="TechnicalNodes" type="Node3D" parent="."]
+
+[node name="IndustrialCatalog" parent="TechnicalNodes" instance=ExtResource("7_catalog")]
+
+[node name="IndustrialQRController" parent="TechnicalNodes" instance=ExtResource("9_qr_controller")]
+catalog_node_path = NodePath("../IndustrialCatalog")
+info_panel_node_path = NodePath("../../InfoPanel3D")
+primary_model_viewer_node_path = NodePath("../../IndustrialModelViewer")
+
+[node name="IndustrialModelViewer" parent="." unique_id=1659878862 instance=ExtResource("2_viewer")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0.43, -2.8)
+
+[node name="InfoPanel3D" type="Node3D" parent="." unique_id=1108459927]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.25, 1.32, -1.8)
+script = ExtResource("3_info")
+
+[node name="GlassPanel" type="MeshInstance3D" parent="InfoPanel3D"]
+mesh = SubResource("BoxMesh_info_panel")
+surface_material_override/0 = ExtResource("15_panel_material")
+
+[node name="Frame" parent="InfoPanel3D" instance=ExtResource("18_frame")]
+
+[node name="SectionLabel" type="Label3D" parent="InfoPanel3D"]
+position = Vector3(-0.99, 0.785, 0.04)
+horizontal_alignment = 0
+text = "CATALOGO / INFORMAZIONI"
+font_size = 26
+pixel_size = 0.0024
+outline_size = 0
+modulate = Color(0.6, 0.87, 0.8, 1)
+
+[node name="TitleLabel" type="Label3D" parent="InfoPanel3D"]
+position = Vector3(-0.99, 0.61, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 26
+max_font_size = 46
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "Industrial Catalog"
+font_size = 40
+modulate = Color(1, 1, 1, 1)
+
+[node name="BodyLabel" type="Label3D" parent="InfoPanel3D"]
+position = Vector3(-0.99, 0.395, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 48
+max_lines = 9
+max_font_size = 32
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 0
+text = "Seleziona un prodotto dal catalogo per consultarne la scheda e i componenti."
+font_size = 28
+modulate = Color(0.86, 0.9, 0.95, 1)
+
+[node name="ValueLines" type="Node3D" parent="InfoPanel3D"]
+visible = false
+
+[node name="DescriptionLine" type="Label3D" parent="InfoPanel3D/ValueLines"]
+position = Vector3(-0.99, 0.335, 0.04)
+outline_size = 0
+pixel_size = 0.0025
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 46
+max_lines = 3
+max_font_size = 30
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "{description}"
+font_size = 28
+modulate = Color(0.86, 0.9, 0.95, 1)
+
+[node name="CategoryLine" type="Label3D" parent="InfoPanel3D/ValueLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99, 0.12, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 48
+max_font_size = 30
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "{category_label}: {category}"
+font_size = 26
+modulate = Color(0.66, 0.88, 0.81, 1)
+
+[node name="DetailLine1" type="Label3D" parent="InfoPanel3D/ValueLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99, -0.03, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 48
+max_font_size = 32
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "{detail_1}"
+font_size = 25
+modulate = Color(0.78, 0.86, 0.94, 1)
+
+[node name="DetailLine2" type="Label3D" parent="InfoPanel3D/ValueLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99, -0.19, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 48
+max_font_size = 32
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "{detail_2}"
+font_size = 25
+modulate = Color(0.78, 0.86, 0.94, 1)
+
+[node name="DetailLine3" type="Label3D" parent="InfoPanel3D/ValueLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99, -0.35, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 48
+max_font_size = 32
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "{detail_3}"
+font_size = 25
+modulate = Color(0.78, 0.86, 0.94, 1)
+
+[node name="DetailLine4" type="Label3D" parent="InfoPanel3D/ValueLines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.99, -0.51, 0.04)
+outline_size = 0
+pixel_size = 0.0024
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 48
+max_font_size = 32
+min_font_size = 28
+horizontal_alignment = 0
+vertical_alignment = 1
+text = "{detail_4}"
+font_size = 25
+modulate = Color(0.78, 0.86, 0.94, 1)
+
+[node name="BackButton" parent="InfoPanel3D" unique_id=845016172 instance=ExtResource("4_button")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.48, -0.71, 0.05)
+demo_id = "menu"
+title_text = "Menu"
+subtitle_text = ""
+accent_color = Color(0.25, 0.73, 0.59, 1)
+base_color = Color(0.09, 0.14, 0.18, 1)
+hover_lighten = 0.2
+
+[node name="TitleLabel" parent="InfoPanel3D/BackButton" index="1"]
+position = Vector3(0, 0, 0.04)
+outline_size = 0
+pixel_size = 0.0028
+max_font_size = 36
+min_font_size = 30
+
+[node name="FooterLabel" type="Label3D" parent="InfoPanel3D"]
+position = Vector3(-0.99, -0.755, 0.04)
+horizontal_alignment = 0
+text = "NOI / XR LAB"
+font_size = 26
+pixel_size = 0.0024
+outline_size = 0
+modulate = Color(0.61, 0.73, 0.77, 1)
+
+[node name="CloseButton" parent="InfoPanel3D" instance=ExtResource("4_button")]
+position = Vector3(0.93, 0.68, 0.05)
+demo_id = "close_info"
+title_text = "×"
+subtitle_text = ""
+accent_color = Color(0.25, 0.73, 0.59, 1)
+base_color = Color(0.09, 0.14, 0.18, 1)
+hover_lighten = 0.2
+
+[node name="Body" parent="InfoPanel3D/CloseButton" index="0"]
+mesh = SubResource("QuadMesh_info_close")
+
+[node name="TitleLabel" parent="InfoPanel3D/CloseButton" index="1"]
+position = Vector3(0, 0, 0.04)
+pixel_size = 0.004
+outline_size = 0
+
+[node name="HitShape" parent="InfoPanel3D/CloseButton/HitArea" index="0"]
+position = Vector3(0, 0, 0)
+shape = SubResource("BoxShape3D_info_close")
+
+[node name="PlacementTarget" parent="TechnicalNodes" unique_id=1977567314 instance=ExtResource("8_placement")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.55, 0.012, -1.95)
+
+[node name="XRPlacementController" parent="TechnicalNodes" instance=ExtResource("11_placement_controller")]
+placement_target_node_path = NodePath("../PlacementTarget")
+min_distance = 0.35
+default_distance = 1.55
+surface_min_up_dot = 0.72
+height_snap_step = 0.0
+preview_smoothing = 0.3
+
+[node name="XRModelRotationController" parent="TechnicalNodes" instance=ExtResource("12_rotation_controller")]
+model_viewer_node_path = NodePath("../../IndustrialModelViewer")
+wrist_menu_node_path = NodePath("../../WristMenu3D")
+source_provider_node_path = NodePath("../XRPlacementController")
+
+[node name="WristMenu3D" parent="." unique_id=1537305775 instance=ExtResource("5_wrist")]
+transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, -1.17, 1.22, -2.12)
+starts_open = true
+
+[node name="IndustrialModelPlacementController" parent="TechnicalNodes" instance=ExtResource("13_model_placement")]
+place_button_move_title = "Sposta"
+place_button_move_subtitle = "Anteprima"
+place_button_set_title = "Posa"
+place_button_set_subtitle = "Conferma"
+wrist_menu_node_path = NodePath("../../WristMenu3D")
+model_viewer_node_path = NodePath("../../IndustrialModelViewer")
+industrial_catalog_node_path = NodePath("../IndustrialCatalog")
+placement_controller_node_path = NodePath("../XRPlacementController")
+rotation_controller_node_path = NodePath("../XRModelRotationController")
+
+[node name="IndustrialModelLoadingController" parent="TechnicalNodes" instance=ExtResource("14_model_loading")]
+model_viewer_node_path = NodePath("../../IndustrialModelViewer")
+industrial_catalog_node_path = NodePath("../IndustrialCatalog")
+
+[node name="DefaultFurniture" type="Node" parent="TechnicalNodes"]
+catalog_node_path = NodePath("../IndustrialCatalog")
+placement_controller_node_path = NodePath("../IndustrialModelPlacementController")
+
+[node name="PlacementStatus" type="Label3D" parent="."]
+position = Vector3(0, 2.08, -2.4)
+font_size = 26
+pixel_size = 0.0025
+script = ExtResource("17_fitted_label")
+max_chars_per_line = 56
+max_lines = 2
+max_font_size = 26
+min_font_size = 22
+text = "Preparo il catalogo..."
+modulate = Color(0.7, 0.92, 0.86, 1)
+
+[node name="SharedLobbyPanel" parent="WristMenu3D/ActionButtons" instance=ExtResource("20_lobby")]
+position = Vector3(0, 0, 0.02)
+
+[connection signal="catalog_loaded" from="TechnicalNodes/IndustrialCatalog" to="." method="_on_catalog_loaded"]
+[connection signal="model_selected" from="TechnicalNodes/IndustrialCatalog" to="." method="_on_catalog_model_selected"]
+[connection signal="back_requested" from="TechnicalNodes/IndustrialModelPlacementController" to="." method="_on_model_placement_back_requested"]
+[connection signal="target_updated" from="TechnicalNodes/XRPlacementController" to="TechnicalNodes/IndustrialModelPlacementController" method="_on_placement_target_updated"]
+[connection signal="confirmed" from="TechnicalNodes/XRPlacementController" to="TechnicalNodes/IndustrialModelPlacementController" method="_on_placement_confirmed"]
+[connection signal="model_loading_started" from="IndustrialModelViewer" to="TechnicalNodes/IndustrialModelLoadingController" method="_on_model_loading_started"]
+[connection signal="model_loading_finished" from="IndustrialModelViewer" to="TechnicalNodes/IndustrialModelLoadingController" method="_on_model_loading_finished"]
+[connection signal="pressed" from="InfoPanel3D/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="InfoPanel3D/CloseButton" to="InfoPanel3D" method="dismiss"]
+[connection signal="action_selected" from="WristMenu3D" to="." method="_on_wrist_menu_action_selected"]
+
+[editable path="WristMenu3D"]
+[editable path="InfoPanel3D/CloseButton"]
+[editable path="InfoPanel3D/BackButton"]

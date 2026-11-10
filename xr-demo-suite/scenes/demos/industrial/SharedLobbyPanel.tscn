@@ -1,0 +1,205 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/demos/industrial/shared_industrial_lobby.gd" id="1_lobby"]
+[ext_resource type="PackedScene" uid="uid://brmlei3026hk1" path="res://scenes/ui/DemoButton3D.tscn" id="2_button"]
+
+[node name="SharedLobbyPanel" type="Node3D"]
+visible = false
+script = ExtResource("1_lobby")
+
+[node name="Title" type="Label3D" parent="."]
+render_priority = 10
+outline_render_priority = 9
+outline_size = 0
+position = Vector3(0, 1.64, 0.03)
+text = "ESPERIENZA CONDIVISA"
+font_size = 34
+pixel_size = 0.0027
+modulate = Color(0.24, 1, 0.8, 1)
+
+[node name="Status" type="Label3D" parent="."]
+render_priority = 10
+outline_render_priority = 9
+outline_size = 0
+position = Vector3(0, 1.30, 0.03)
+text = "Stessa Wi-Fi su tutti i Quest."
+autowrap_mode = 2
+width = 760.0
+font_size = 28
+pixel_size = 0.0028
+modulate = Color(0.87, 0.94, 1, 1)
+
+[node name="Info" type="Label3D" parent="."]
+visible = false
+render_priority = 10
+outline_render_priority = 9
+outline_size = 0
+position = Vector3(0, 1.02, 0.03)
+text = "STANZA 0000"
+font_size = 40
+pixel_size = 0.0028
+modulate = Color(0.98, 0.85, 0.4, 1)
+
+[node name="Hint" type="Label3D" parent="."]
+render_priority = 10
+outline_render_priority = 9
+outline_size = 0
+position = Vector3(0, -1.35, 0.03)
+text = "Crea una stanza o scegli un host sulla LAN."
+autowrap_mode = 2
+width = 760.0
+font_size = 24
+pixel_size = 0.0028
+modulate = Color(0.87, 0.94, 1, 1)
+
+[node name="LobbyView" type="Node3D" parent="."]
+
+[node name="Host" parent="LobbyView" instance=ExtResource("2_button")]
+position = Vector3(-0.70, 0.55, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "host"
+title_text = "Crea stanza"
+subtitle_text = "Ospita su questo Quest"
+accent_color = Color(0.12, 0.8, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="Code" parent="LobbyView" instance=ExtResource("2_button")]
+position = Vector3(0.70, 0.55, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "code"
+title_text = "Entra col codice"
+subtitle_text = "4 cifre mostrate dall'host"
+accent_color = Color(0.16, 0.56, 0.78, 1)
+surface_alpha = 1.0
+
+[node name="Rooms" type="Node3D" parent="LobbyView"]
+
+[node name="Close" parent="LobbyView" instance=ExtResource("2_button")]
+position = Vector3(0, -0.70, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "close"
+title_text = "Indietro"
+subtitle_text = "Torna al menu"
+accent_color = Color(0.5, 0.45, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="KeypadView" type="Node3D" parent="."]
+visible = false
+
+[node name="Keys" type="Node3D" parent="KeypadView"]
+
+[node name="Cancel" parent="KeypadView" instance=ExtResource("2_button")]
+position = Vector3(0.95, -0.90, 0.04)
+scale = Vector3(0.55, 0.75, 0.7)
+demo_id = "cancel"
+title_text = "Cancella"
+subtitle_text = ""
+accent_color = Color(0.85, 0.35, 0.3, 1)
+surface_alpha = 1.0
+
+[node name="Ok" parent="KeypadView" instance=ExtResource("2_button")]
+position = Vector3(0, -0.90, 0.04)
+scale = Vector3(0.55, 0.75, 0.7)
+demo_id = "ok"
+title_text = "Entra"
+subtitle_text = ""
+accent_color = Color(0.12, 0.8, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="Back" parent="KeypadView" instance=ExtResource("2_button")]
+position = Vector3(-0.95, -0.90, 0.04)
+scale = Vector3(0.55, 0.75, 0.7)
+demo_id = "back"
+title_text = "Indietro"
+subtitle_text = ""
+accent_color = Color(0.5, 0.45, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="RoomView" type="Node3D" parent="."]
+visible = false
+
+[node name="RenameView" type="Node3D" parent="."]
+visible = false
+
+[node name="Keys" type="Node3D" parent="RenameView"]
+
+[node name="Clear" parent="RenameView" instance=ExtResource("2_button")]
+position = Vector3(-0.95, -0.90, 0.04)
+scale = Vector3(0.55, 0.75, 0.7)
+demo_id = "name_clear"
+title_text = "Cancella"
+subtitle_text = ""
+accent_color = Color(0.85, 0.35, 0.3, 1)
+surface_alpha = 1.0
+
+[node name="Ok" parent="RenameView" instance=ExtResource("2_button")]
+position = Vector3(0, -0.90, 0.04)
+scale = Vector3(0.55, 0.75, 0.7)
+demo_id = "name_ok"
+title_text = "Salva"
+subtitle_text = ""
+accent_color = Color(0.12, 0.8, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="Back" parent="RenameView" instance=ExtResource("2_button")]
+position = Vector3(0.95, -0.90, 0.04)
+scale = Vector3(0.55, 0.75, 0.7)
+demo_id = "name_back"
+title_text = "Indietro"
+subtitle_text = ""
+accent_color = Color(0.5, 0.45, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="Mode" parent="RoomView" instance=ExtResource("2_button")]
+position = Vector3(0, 0.62, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "mode"
+title_text = "Privata"
+subtitle_text = "Solo io muovo i miei arredi"
+accent_color = Color(0.12, 0.8, 0.6, 1)
+surface_alpha = 1.0
+
+[node name="Retry" parent="RoomView" instance=ExtResource("2_button")]
+position = Vector3(0, 0.24, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "retry"
+title_text = "Riprova"
+subtitle_text = "Riconosci di nuovo lo spazio"
+accent_color = Color(0.95, 0.68, 0.24, 1)
+surface_alpha = 1.0
+
+[node name="Reset" parent="RoomView" instance=ExtResource("2_button")]
+position = Vector3(0, -0.14, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "reset"
+title_text = "Reset stanza"
+subtitle_text = "Rimuove tutti gli arredi"
+accent_color = Color(0.85, 0.35, 0.3, 1)
+surface_alpha = 1.0
+
+[node name="Rename" parent="RoomView" instance=ExtResource("2_button")]
+position = Vector3(0, -0.52, 0.04)
+scale = Vector3(0.85, 0.85, 0.7)
+demo_id = "rename"
+title_text = "Cambia nome"
+subtitle_text = "Dai un nome alla stanza"
+accent_color = Color(0.16, 0.56, 0.78, 1)
+surface_alpha = 1.0
+
+[node name="Leave" parent="RoomView" instance=ExtResource("2_button")]
+position = Vector3(0.60, -0.70, 0.04)
+scale = Vector3(0.62, 0.62, 0.7)
+demo_id = "leave"
+title_text = "Esci dalla stanza"
+subtitle_text = "Ti disconnetti"
+accent_color = Color(0.85, 0.35, 0.3, 1)
+surface_alpha = 1.0
+
+[node name="Close" parent="RoomView" instance=ExtResource("2_button")]
+position = Vector3(-0.60, -0.70, 0.04)
+scale = Vector3(0.62, 0.62, 0.7)
+demo_id = "close"
+title_text = "Torna alla demo"
+subtitle_text = "Rimani in stanza"
+accent_color = Color(0.5, 0.45, 0.6, 1)
+surface_alpha = 1.0

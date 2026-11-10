@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cg6vfa6w3ax0j"]
+
+[ext_resource type="Script" uid="uid://crvjgtn7h4c7n" path="res://scripts/app/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://bq026x4c4nd82" path="res://scenes/xr/XRRoot.tscn" id="2_xrroot"]
+[ext_resource type="PackedScene" uid="uid://bqteihmb8vnsq" path="res://scenes/app/DemoRouter.tscn" id="3_router"]
+[ext_resource type="PackedScene" uid="uid://dj80cgvkhrg3c" path="res://scenes/ui/MainMenu3D.tscn" id="4_menu"]
+[ext_resource type="PackedScene" uid="uid://dqlfq88bm5gno" path="res://scenes/ui/LoadingPanel3D.tscn" id="5_loading"]
+[ext_resource type="PackedScene" path="res://scenes/app/XRContextProvider.tscn" id="6_context"]
+[ext_resource type="Script" uid="uid://bo3rgibpcxn3s" path="res://scripts/demos/industrial/shared_industrial_state.gd" id="7_shared_state"]
+
+[node name="Main" type="Node3D" unique_id=435322835]
+script = ExtResource("1_main")
+
+[node name="XRRoot" parent="." unique_id=1570970328 instance=ExtResource("2_xrroot")]
+
+[node name="AppServices" type="Node" parent="." unique_id=458994032]
+
+[node name="DemoRouter" parent="AppServices" unique_id=599461269 instance=ExtResource("3_router")]
+
+[node name="ContextProvider" parent="AppServices" unique_id=727054375 instance=ExtResource("6_context")]
+
+[node name="SharedState" type="Node" parent="AppServices"]
+script = ExtResource("7_shared_state")
+
+[node name="GlobalUI" type="Node3D" parent="." unique_id=567005759]
+
+[node name="MainMenu3D" parent="GlobalUI" unique_id=1333108482 instance=ExtResource("4_menu")]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 4.0113926e-05, 1.38, -2.35)
+
+[node name="LoadingPanel3D" parent="GlobalUI" unique_id=716326899 instance=ExtResource("5_loading")]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 0, 1.38, -2.25)
+visible = false
+
+[connection signal="back_requested" from="AppServices/DemoRouter" to="." method="_show_menu"]
+[connection signal="demo_load_failed" from="AppServices/DemoRouter" to="." method="_on_demo_load_failed"]
+[connection signal="demo_loaded" from="AppServices/DemoRouter" to="." method="_on_demo_loaded"]
+[connection signal="demo_selected" from="GlobalUI/MainMenu3D" to="." method="_on_demo_selected"]

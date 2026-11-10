@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/demos/industrial/industrial_model_label_3d.gd" id="1_label"]
+[ext_resource type="Script" path="res://scripts/ui/fitted_label_3d.gd" id="2_fitted_label"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_panel.tres" id="3_label_backplate_material"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_label_backplate"]
+size = Vector3(1.25, 0.22, 0.018)
+
+[node name="IndustrialModelLabel3D" type="Node3D"]
+script = ExtResource("1_label")
+
+[node name="LabelBackplate" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.73, 0.016)
+mesh = SubResource("BoxMesh_label_backplate")
+surface_material_override/0 = ExtResource("3_label_backplate_material")
+
+[node name="ModelNameLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.73, 0.035)
+pixel_size = 0.00235
+script = ExtResource("2_fitted_label")
+max_chars_per_line = 18
+max_lines = 2
+max_font_size = 26
+min_font_size = 18
+font_size = 26
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Catalog item"
+modulate = Color(0.9, 0.94, 1, 1)

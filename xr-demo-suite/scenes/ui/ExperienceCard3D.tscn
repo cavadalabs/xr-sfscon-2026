@@ -1,0 +1,95 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/DemoButton3D.tscn" id="button"]
+[ext_resource type="PackedScene" path="res://assets/models/ui/studio_card_frame.glb" id="frame"]
+[ext_resource type="Material" path="res://assets/materials/ui/studio_card.tres" id="surface"]
+[ext_resource type="Material" path="res://assets/materials/ui/product_plate.tres" id="plate"]
+[ext_resource type="Texture2D" path="res://assets/ui/studio_focus.svg" id="focus"]
+
+[sub_resource type="QuadMesh" id="card"]
+size = Vector2(0.93, 1.16)
+[sub_resource type="QuadMesh" id="plate"]
+size = Vector2(0.84, 0.64)
+[sub_resource type="BoxShape3D" id="hit"]
+size = Vector3(0.96, 1.20, 0.12)
+
+[node name="ExperienceCard3D" instance=ExtResource("button")]
+base_color = Color(0.13, 0.19, 0.25, 1)
+accent_mix = 0.06
+surface_alpha = 1.0
+hover_lighten = 0.08
+idle_emission = 0.0
+hover_emission = 0.05
+
+[node name="Body" parent="." index="0"]
+mesh = SubResource("card")
+surface_material_override/0 = ExtResource("surface")
+
+[node name="TitleLabel" parent="." index="1"]
+position = Vector3(-0.37, -0.265, 0.04)
+outline_size = 0
+horizontal_alignment = 0
+pixel_size = 0.002
+max_chars_per_line = 21
+max_font_size = 38
+min_font_size = 34
+
+[node name="SubtitleLabel" parent="." index="2"]
+position = Vector3(-0.37, -0.385, 0.04)
+outline_size = 0
+horizontal_alignment = 0
+pixel_size = 0.00185
+max_chars_per_line = 24
+max_lines = 2
+max_font_size = 24
+min_font_size = 24
+
+[node name="HitShape" parent="HitArea" index="0"]
+position = Vector3(0, 0, 0)
+shape = SubResource("hit")
+
+[node name="Frame" parent="." instance=ExtResource("frame")]
+
+[node name="ProductPlate" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.12, 0.018)
+mesh = SubResource("plate")
+material_override = ExtResource("plate")
+
+[node name="Illustration" type="Sprite3D" parent="."]
+position = Vector3(0, 0.12, 0.028)
+pixel_size = 0.001
+modulate = Color(0.82, 0.82, 0.82, 1)
+
+[node name="IndexLabel" type="Label3D" parent="."]
+position = Vector3(-0.37, 0.505, 0.04)
+horizontal_alignment = 0
+text = "01 / CATALOGO"
+font_size = 24
+pixel_size = 0.0018
+outline_size = 0
+modulate = Color(0.64, 0.79, 0.8, 1)
+
+[node name="ActionLabel" type="Label3D" parent="."]
+position = Vector3(-0.37, -0.485, 0.04)
+horizontal_alignment = 0
+text = "Esplora"
+font_size = 26
+pixel_size = 0.0019
+outline_size = 0
+modulate = Color(0.61, 0.93, 0.82, 1)
+
+[node name="ArrowLabel" type="Label3D" parent="."]
+position = Vector3(0.345, -0.485, 0.04)
+text = "↗"
+font_size = 32
+pixel_size = 0.0016
+outline_size = 0
+modulate = Color(0.61, 0.93, 0.82, 1)
+
+[node name="FocusIndicator" type="Sprite3D" parent="."]
+visible = false
+position = Vector3(0, 0, 0.033)
+texture = ExtResource("focus")
+pixel_size = 0.001
+
+[editable path="HitArea"]

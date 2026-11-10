@@ -1,0 +1,9 @@
+.DS_Store
+godot/.godot/
+godot/icon.svg.import
+godot/android/
+godot/build/
+*.apk
+*.aab
+*.keystore
+*.jks

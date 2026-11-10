@@ -1,0 +1,25 @@
+.DS_Store
+
+# Godot generated editor/import cache.
+.godot/
+
+# Godot .uid sidecars for project resources are intentionally versioned.
+# They keep resource identity stable across machines; do not ignore *.uid globally.
+
+# Local Android/Gradle build output and generated Godot Android template.
+android/build/
+
+# Exported packages.
+build/
+*.apk
+*.aab
+
+# Local signing material.
+*.keystore
+*.jks
+
+# Runtime/editor logs.
+*.log
+
+# Python asset preparation cache.
+__pycache__/

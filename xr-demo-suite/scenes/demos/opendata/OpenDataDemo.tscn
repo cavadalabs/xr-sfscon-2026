@@ -1,0 +1,129 @@
+[gd_scene load_steps=16 format=3 uid="uid://okl7ehi1he5j"]
+
+[ext_resource type="Script" uid="uid://ctkwbhxv62221" path="res://scripts/demos/opendata_demo.gd" id="1_demo"]
+[ext_resource type="PackedScene" uid="uid://drb1ocec271rm" path="res://scenes/demos/opendata/NoiMap.tscn" id="2_map"]
+[ext_resource type="PackedScene" uid="uid://busjo15xxsrgg" path="res://scenes/demos/opendata/DataPanel.tscn" id="3_panel"]
+[ext_resource type="PackedScene" uid="uid://brmlei3026hk1" path="res://scenes/ui/DemoButton3D.tscn" id="4_button"]
+[ext_resource type="Script" path="res://scripts/ui/info_panel_3d.gd" id="5_info"]
+[ext_resource type="PackedScene" path="res://scenes/services/OpenDataHubClient.tscn" id="6_open_data"]
+[ext_resource type="PackedScene" uid="uid://dyo6mhmdixcod" path="res://scenes/xr/XRPlacementPreview3D.tscn" id="7_placement"]
+[ext_resource type="PackedScene" path="res://scenes/xr/XRPlacementController3D.tscn" id="8_placement_controller"]
+[ext_resource type="PackedScene" path="res://scenes/demos/opendata/RoomDataSource.tscn" id="9_room_data"]
+[ext_resource type="PackedScene" path="res://scenes/demos/opendata/OpenDataLayoutController.tscn" id="10_layout"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_panel.tres" id="11_panel_material"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_accent.tres" id="12_accent_material"]
+[ext_resource type="Script" path="res://scripts/ui/fitted_label_3d.gd" id="13_fitted_label"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_intro_panel"]
+size = Vector3(2.18, 1.34, 0.028)
+
+[sub_resource type="BoxMesh" id="BoxMesh_intro_edge"]
+size = Vector3(0.035, 1.25, 0.036)
+
+[node name="OpenDataDemo" type="Node3D" unique_id=229334643]
+script = ExtResource("1_demo")
+
+[node name="TechnicalNodes" type="Node3D" parent="."]
+
+[node name="RoomDataSource" parent="TechnicalNodes" instance=ExtResource("9_room_data")]
+
+[node name="OpenDataHubClient" parent="TechnicalNodes" instance=ExtResource("6_open_data")]
+
+[node name="NoiMap" parent="." unique_id=153995470 instance=ExtResource("2_map")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 1.18, -2.5)
+visible = false
+
+[node name="DataPanel" parent="." unique_id=1007638800 instance=ExtResource("3_panel")]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 1.85, 1.55, -2.5)
+visible = false
+
+[node name="IntroPanel" type="Node3D" parent="."]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 0, 1.45, -2.35)
+script = ExtResource("5_info")
+
+[node name="GlassPanel" type="MeshInstance3D" parent="IntroPanel"]
+mesh = SubResource("BoxMesh_intro_panel")
+surface_material_override/0 = ExtResource("11_panel_material")
+
+[node name="Accent" type="MeshInstance3D" parent="IntroPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07, 0, 0.026)
+mesh = SubResource("BoxMesh_intro_edge")
+surface_material_override/0 = ExtResource("12_accent_material")
+
+[node name="TitleLabel" type="Label3D" parent="IntroPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.035, 0.48, 0.04)
+pixel_size = 0.0024
+script = ExtResource("13_fitted_label")
+max_chars_per_line = 24
+max_font_size = 46
+min_font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "NOI · Digital Twin"
+font_size = 40
+modulate = Color(1, 1, 1, 1)
+
+[node name="BodyLabel" type="Label3D" parent="IntroPanel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.035, -0.075, 0.04)
+pixel_size = 0.00205
+script = ExtResource("13_fitted_label")
+max_chars_per_line = 38
+max_lines = 10
+max_font_size = 31
+min_font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Esplora edifici e ambienti del NOI.
+Un pinch seleziona, tieni 1 s per spostare.
+Con due mani ruoti e ingrandisci."
+font_size = 28
+modulate = Color(0.86, 0.9, 0.95, 1)
+
+[node name="PlaceMapButton" parent="." instance=ExtResource("4_button")]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, -0.62, 0.5, -2.35)
+demo_id = "place_map"
+title_text = "Place Map"
+subtitle_text = "Table or floor"
+accent_color = Color(0.18, 0.58, 0.9, 1)
+
+[node name="BackButton" parent="." unique_id=2031254979 instance=ExtResource("4_button")]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 0.62, 0.5, -2.35)
+demo_id = "menu"
+title_text = "Menu"
+subtitle_text = "Menu principale"
+accent_color = Color(0.42, 0.48, 0.55, 1)
+
+[node name="ResetLayoutButton" parent="." instance=ExtResource("4_button")]
+visible = false
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, 0.62, 0.08, -2.35)
+demo_id = "reset_layout"
+title_text = "Ripristina"
+subtitle_text = "Layout"
+accent_color = Color(0.36, 0.48, 0.62, 1)
+
+[node name="PlacementTarget" parent="TechnicalNodes" instance=ExtResource("7_placement")]
+
+[node name="XRPlacementController" parent="TechnicalNodes" instance=ExtResource("8_placement_controller")]
+placement_target_node_path = NodePath("../PlacementTarget")
+min_distance = 0.35
+default_distance = 1.7
+surface_min_up_dot = 0.65
+height_snap_step = 0.02
+
+[node name="OpenDataLayoutController" parent="TechnicalNodes" instance=ExtResource("10_layout")]
+back_button_node_path = NodePath("../../BackButton")
+place_map_button_node_path = NodePath("../../PlaceMapButton")
+reset_layout_button_node_path = NodePath("../../ResetLayoutButton")
+intro_panel_node_path = NodePath("../../IntroPanel")
+noi_map_node_path = NodePath("../../NoiMap")
+data_panel_node_path = NodePath("../../DataPanel")
+placement_controller_node_path = NodePath("../XRPlacementController")
+
+[connection signal="back_requested" from="TechnicalNodes/OpenDataLayoutController" to="." method="_on_layout_back_requested"]
+[connection signal="measurements_updated" from="TechnicalNodes/OpenDataHubClient" to="." method="_on_live_measurements_updated"]
+[connection signal="target_updated" from="TechnicalNodes/XRPlacementController" to="TechnicalNodes/OpenDataLayoutController" method="_on_placement_target_updated"]
+[connection signal="confirmed" from="TechnicalNodes/XRPlacementController" to="TechnicalNodes/OpenDataLayoutController" method="_on_placement_confirmed"]
+[connection signal="room_selected" from="NoiMap" to="." method="_on_room_selected"]
+[connection signal="pressed" from="PlaceMapButton" to="TechnicalNodes/OpenDataLayoutController" method="_on_place_map_button_pressed"]
+[connection signal="pressed" from="BackButton" to="TechnicalNodes/OpenDataLayoutController" method="_on_back_button_pressed"]
+[connection signal="pressed" from="ResetLayoutButton" to="TechnicalNodes/OpenDataLayoutController" method="_on_reset_layout_button_pressed"]

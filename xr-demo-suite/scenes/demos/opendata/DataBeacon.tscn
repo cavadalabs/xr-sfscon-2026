@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddatabeacon3d1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_beacon"]
+radial_segments = 12
+rings = 6
+radius = 1.0
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beacon"]
+shading_mode = 0
+no_depth_test = true
+
+[node name="DataBeacon" type="Node3D"]
+
+[node name="Beacon" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_beacon")
+material_override = SubResource("StandardMaterial3D_beacon")
+
+[node name="Label" type="Label3D" parent="."]
+visible = false
+font_size = 28
+no_depth_test = true

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dremhandcursor1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_cursor"]
+radial_segments = 12
+rings = 6
+radius = 0.014
+height = 0.028
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cursor"]
+albedo_color = Color(0.72, 0.55, 1, 1)
+shading_mode = 0
+
+[node name="RemoteHandCursor" type="MeshInstance3D"]
+visible = false
+mesh = SubResource("SphereMesh_cursor")
+material_override = SubResource("StandardMaterial3D_cursor")

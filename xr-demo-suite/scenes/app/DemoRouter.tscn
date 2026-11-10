@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqteihmb8vnsq"]
+
+[ext_resource type="Script" path="res://scripts/app/demo_router.gd" id="1_router"]
+
+[node name="DemoRouter" type="Node3D" unique_id=1040575311]
+script = ExtResource("1_router")
+demo_scene_paths = {
+"industrial": "res://scenes/demos/industrial/IndustrialDemo.tscn",
+"llm": "res://scenes/demos/llm/LLMDemo.tscn",
+"opendata": "res://scenes/demos/opendata/OpenDataDemo.tscn"
+}
+
+[node name="DemoContainer" type="Node3D" parent="."]

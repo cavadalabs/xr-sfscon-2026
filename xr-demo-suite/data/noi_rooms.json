@@ -1,0 +1,59 @@
+[
+  {
+    "id": "noi_free_software_lab",
+    "name": "Free Software Lab",
+    "site": "NOI Techpark Bolzano",
+    "city": "Bolzano",
+    "building": "A1",
+    "area": "Free Software Lab · A1 / 1",
+    "station_type": "IndoorStation",
+    "station_code": "NOI:FreeSoftwareLab-Temperature",
+    "station_name": "NOI:FreeSoftwareLab-Temperature",
+    "status": "loading",
+    "source": "Open Data Hub",
+    "api_url": "https://mobility.api.opendatahub.com/v2/flat,node/IndoorStation/*/latest",
+    "datatypes": [
+      "air-temperature",
+      "air-humidity"
+    ],
+    "temperature": null,
+    "humidity": null,
+    "co2": null,
+    "last_updated": "",
+    "floor": 1,
+    "location_scope": "floor",
+    "location_note": "Lab A1 · piano 1 · sensore da localizzare",
+    "room_id": null,
+    "location_source": "https://mobility.api.opendatahub.com/v2/flat,node/NOI-Place?where=scode.in.(A11.33.A,A11.33.B)",
+    "display_location": "A1 · piano 1 · area del Lab"
+  },
+  {
+    "id": "noi_a1_floor1_air_quality",
+    "name": "Qualità aria · A1",
+    "site": "NOI Techpark Bolzano",
+    "city": "Bolzano",
+    "building": "A1",
+    "area": "A1 · piano 1",
+    "station_type": "IndoorStation",
+    "station_code": "NOI:NOI-A1-Floor1-CO2",
+    "station_name": "NOI:NOI-A1-Floor1-CO2",
+    "status": "loading",
+    "source": "Open Data Hub",
+    "api_url": "https://mobility.api.opendatahub.com/v2/flat,node/IndoorStation/*/latest",
+    "datatypes": [
+      "air-temperature",
+      "air-humidity",
+      "co2-ppm"
+    ],
+    "temperature": null,
+    "humidity": null,
+    "co2": null,
+    "last_updated": "",
+    "floor": 1,
+    "location_scope": "floor",
+    "location_note": "A1 · piano 1 · stanza del sensore da confermare",
+    "room_id": null,
+    "location_source": "https://mobility.api.opendatahub.com/v2/flat,node/IndoorStation/*/latest",
+    "display_location": "A1 · piano 1 · sensore di piano"
+  }
+]

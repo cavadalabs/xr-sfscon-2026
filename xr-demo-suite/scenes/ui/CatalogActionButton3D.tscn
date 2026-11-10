@@ -1,0 +1,16 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/DemoButton3D.tscn" id="button"]
+
+[node name="CatalogActionButton3D" instance=ExtResource("button")]
+subtitle_text = ""
+
+[node name="TitleLabel" parent="." index="1"]
+position = Vector3(0, 0, 0.04)
+pixel_size = 0.0045
+max_chars_per_line = 12
+max_font_size = 48
+min_font_size = 36
+
+[node name="SubtitleLabel" parent="." index="2"]
+visible = false

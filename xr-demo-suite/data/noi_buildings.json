@@ -1,0 +1,72 @@
+{
+  "A1": {
+    "name": "A1 · Il cuore del NOI",
+    "description": "Edificio principale del campus: accoglienza, spazio NOISE e Maker Space. Qui la storia industriale incontra ricerca, imprese e collaborazione.",
+    "description_source": "https://community.noi.bz.it/it/onboarding-manual"
+  },
+  "A2": {
+    "name": "A2 · Patrimonio industriale",
+    "description": "L’ex stabilimento Bolzano 2 fa parte del nucleo storico del NOI. La sua architettura razionalista è stata recuperata nel progetto del parco tecnologico.",
+    "description_source": "https://noi.bz.it/media/pages/ueber-uns/presse-medien/noi-techpark-jahresbericht-2021/257ac06888-1683309976/noi_jb2021_it_rz.pdf"
+  },
+  "A3": {
+    "name": "A3 · Servizi per le famiglie",
+    "description": "L’edificio ospita l’asilo nido e la scuola dell’infanzia, inaugurati nel 2019: servizi per le famiglie all’interno del distretto dell’innovazione.",
+    "description_source": "https://noi.bz.it/media/pages/ueber-uns/presse-medien/hard-facts/bdf2330619-1724078977/noi-hard-facts-it-1.pdf"
+  },
+  "A4": {
+    "name": "A4 · Vita della community",
+    "description": "L’edificio della Noisteria ospita anche la palestra della NOI-Community al piano interrato. Uno spazio del campus dedicato alla vita quotidiana e agli incontri.",
+    "description_source": "https://community.noi.bz.it/it/onboarding-manual"
+  },
+  "A5": {
+    "name": "A5 · L’ex cappella",
+    "description": "L’ex cappella del complesso industriale è parte della storia del sito. Il suo recupero rientra negli interventi di trasformazione dell’area in distretto dell’innovazione.",
+    "description_source": "https://noi.bz.it/media/pages/ueber-uns/transparente-verwaltung/bilanzen/verwaltungsakten/67507b79d2-1689606908/del.-giunta-n.-413_16.06.2020_dlv-noi-ag.pdf"
+  },
+  "A6": {
+    "name": "A6 · Biomedicina",
+    "description": "L’edificio ospita l’Istituto di Biomedicina di Eurac Research e un reparto dell’Azienda Sanitaria dell’Alto Adige, mettendo in relazione ricerca e salute.",
+    "description_source": "https://noi.bz.it/it/chi-siamo/storia-architettura"
+  },
+  "B1": {
+    "name": "B1 · Ingegneria",
+    "description": "Sede della Facoltà di Ingegneria della Libera Università di Bolzano dal 2024. Porta didattica, ricerca e studenti nel campus del NOI.",
+    "description_source": "https://noi.bz.it/it/chi-siamo/storia-architettura"
+  },
+  "B5": {
+    "name": "B5 · Laboratori unibz",
+    "description": "Edificio dedicato ai laboratori della Libera Università di Bolzano, completato nel 2021. Amplia gli spazi del campus destinati alla ricerca sperimentale.",
+    "description_source": "https://noi.bz.it/it/chi-siamo/storia-architettura"
+  },
+  "D1": {
+    "name": "D1 · Imprese e innovazione",
+    "description": "Primo modulo del NOI dedicato alle aziende, inaugurato nel 2019. Riunisce imprese innovative accanto agli istituti di ricerca del campus.",
+    "description_source": "https://noi.bz.it/media/site/cacd1f0de8-1749568770/noi_jb2024_it_digital.pdf"
+  },
+  "D2": {
+    "name": "D2 · Food & Health",
+    "description": "Laboratori e aziende dedicati alle tecnologie alimentari. Ospita il Centro Internazionale per la Fermentazione Alimentare e laboratori del Centro di Sperimentazione Laimburg.",
+    "description_source": "https://noi.bz.it/it/chi-siamo/stampa-media/noi-techpark-inaugura-due-nuovi-edifici"
+  },
+  "D3": {
+    "name": "D3 · Tecnologie Green",
+    "description": "Laboratori e imprese per energia sostenibile, tecnologie edilizie e gestione delle acque. Ospita anche ARENA, il centro applicativo di Fraunhofer Italia.",
+    "description_source": "https://noi.bz.it/it/chi-siamo/stampa-media/noi-techpark-inaugura-due-nuovi-edifici"
+  },
+  "E": {
+    "name": "E · Laboratori sperimentali",
+    "description": "Gli E-Labs accolgono infrastrutture sperimentali. Fra queste, BAUlab di Fraunhofer Italia studia tecnologie e processi per il cantiere del futuro.",
+    "description_source": "https://www.fraunhofer.it/en/Research/building-information-management/BAUlab.html"
+  },
+  "F1": {
+    "name": "F1 · Ricerca e lavoro",
+    "description": "Un edificio che combina uffici, open space e laboratori universitari: spazi diversi per le attività di ricerca e lavoro del campus.",
+    "description_source": "https://noi.bz.it/media/pages/hse-documents/noi-techpark-bolzano-bozen/f1/1f27e0ba5a-1751884103/noi-bz-f1-piano-di-emergenza-ed-evacuazione-it.pdf"
+  },
+  "P1": {
+    "name": "P1 · Accesso pedonale",
+    "description": "Nel plastico, una pensilina vetrata con parapetti segnala il collegamento pedonale verso i livelli interrati.",
+    "description_source": "note interne del gemello digitale NOI"
+  }
+}
