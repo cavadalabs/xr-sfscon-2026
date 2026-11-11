@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/demos/industrial/industrial_qr_model_registry.gd" id="1_registry"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/QRModelInstance.tscn" id="2_qr_model"]
+
+[node name="QRModelRegistry" type="Node"]
+script = ExtResource("1_registry")
+qr_model_instance_scene = ExtResource("2_qr_model")
+model_container_node_path = NodePath("QRModelContainer")
+
+[node name="QRModelContainer" type="Node3D" parent="."]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" uid="uid://bjetehldprj8s" path="res://scenes/demos/industrial/IndustrialModelViewer.tscn" id="1_viewer"]
+[ext_resource type="Script" path="res://scripts/demos/industrial/industrial_qr_model_instance.gd" id="2_qr_instance"]
+
+[node name="QRModelInstance" instance=ExtResource("1_viewer")]
+script = ExtResource("2_qr_instance")

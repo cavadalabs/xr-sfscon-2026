@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/demos/llm/assistant_robot.gd" id="robot"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelViewer.tscn" id="viewer"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelPlacementController.tscn" id="placement"]
+[ext_resource type="PackedScene" path="res://scenes/xr/XRModelRotationController3D.tscn" id="gestures"]
+[ext_resource type="PackedScene" path="res://scenes/xr/XRPlacementController3D.tscn" id="surface"]
+
+[node name="AssistantRobot" type="Node3D"]
+script = ExtResource("robot")
+
+[node name="Viewer" parent="." instance=ExtResource("viewer")]
+visible = false
+model_floor_y = 0.0
+
+[node name="Surface" parent="." instance=ExtResource("surface")]
+
+[node name="Gestures" parent="." instance=ExtResource("gestures")]
+source_provider_node_path = NodePath("../Surface")
+
+[node name="Placement" parent="." instance=ExtResource("placement")]
+auto_anchor_placed_models = false
+model_viewer_node_path = NodePath("../Viewer")
+placement_controller_node_path = NodePath("../Surface")
+rotation_controller_node_path = NodePath("../Gestures")
+
+[connection signal="target_updated" from="Surface" to="Placement" method="_on_placement_target_updated"]
+[connection signal="confirmed" from="Surface" to="Placement" method="_on_placement_confirmed"]

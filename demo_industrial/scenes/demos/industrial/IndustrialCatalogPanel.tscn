@@ -1,0 +1,338 @@
+[gd_scene format=3 uid="uid://bpq6mjqrjtn7x"]
+
+[ext_resource type="Script" uid="uid://cgls3pwpum0e7" path="res://scripts/ui/wrist_menu_3d.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/ui/CatalogActionButton3D.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ui/WristMenuModelSlot3D.tscn" id="3"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_panel.tres" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/xr/XRHandTouchInteractor3D.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ui/InteractiveCollisionController3D.tscn" id="6"]
+[ext_resource type="Material" path="res://assets/materials/ui/product_plate.tres" id="7"]
+[ext_resource type="Material" path="res://assets/materials/ui/studio_card.tres" id="card_surface"]
+[ext_resource type="PackedScene" uid="uid://dhi3d247aeyn7" path="res://scenes/ui/XRPanelDragHandle3D.tscn" id="drag"]
+[ext_resource type="PackedScene" uid="uid://btthhms74n6w3" path="res://assets/models/ui/studio_info_frame.glb" id="frame"]
+
+[sub_resource type="QuadMesh" id="panel"]
+size = Vector2(2.7, 3.2)
+
+[sub_resource type="QuadMesh" id="card"]
+size = Vector2(1.02, 1.4)
+
+[sub_resource type="BoxShape3D" id="hit"]
+size = Vector3(1.05, 1.23, 0.12)
+
+[sub_resource type="QuadMesh" id="plate"]
+size = Vector2(0.97, 0.72)
+
+[node name="IndustrialCatalogPanel" type="Node3D" unique_id=789573923]
+script = ExtResource("1")
+starts_open = true
+
+[node name="GlassPanel" type="MeshInstance3D" parent="." unique_id=1217101194]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27, 0)
+material_override = ExtResource("4")
+mesh = SubResource("panel")
+
+[node name="Frame" parent="." unique_id=2017019487 instance=ExtResource("frame")]
+transform = Transform3D(1.125, 0, 0, 0, 1.77778, 0, 0, 0, 1, 0, 0.27, 0)
+
+[node name="TitleLabel" type="Label3D" parent="." unique_id=491518384]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64, 0.025)
+pixel_size = 0.0027
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.69, 0.92, 0.86, 1)
+text = "CATALOGO 3D"
+font_size = 34
+outline_size = 0
+
+[node name="HintLabel" type="Label3D" parent="." unique_id=2106154797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79, 0.025)
+pixel_size = 0.0028
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.75, 0.83, 0.84, 1)
+text = "Scegli un prodotto"
+font_size = 28
+outline_size = 0
+
+[node name="ActionButtons" type="Node3D" parent="." unique_id=1518154049]
+
+[node name="ModelSlots" type="Node3D" parent="ActionButtons" unique_id=2128059374]
+
+[node name="ActionSlot1" parent="ActionButtons/ModelSlots" unique_id=705421689 instance=ExtResource("3")]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, -0.82, 0.24, 0.04)
+id_field = "id"
+title_field = "title"
+subtitle_field = "category"
+color_field = "color"
+preview_shape_field = "preview_shape"
+default_color = "#2F7DD3"
+selected_lighten = 0.22
+preview_emission = 0.08
+selection_emission = 0.09
+preview_roughness = 0.62
+selection_roughness = 0.65
+
+[node name="Body" parent="ActionButtons/ModelSlots/ActionSlot1" index="0" unique_id=184449034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("card")
+surface_material_override/0 = ExtResource("card_surface")
+
+[node name="TitleLabel" parent="ActionButtons/ModelSlots/ActionSlot1" index="1" unique_id=1478048722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0.04)
+max_font_size = 34
+min_font_size = 30
+
+[node name="SubtitleLabel" parent="ActionButtons/ModelSlots/ActionSlot1" index="2" unique_id=652099099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.61, 0.041)
+pixel_size = 0.0028
+max_chars_per_line = 23
+max_lines = 2
+max_font_size = 26
+min_font_size = 24
+
+[node name="HitShape" parent="ActionButtons/ModelSlots/ActionSlot1/HitArea" parent_id_path=PackedInt32Array(705421689, 2066597443) index="0" unique_id=765032076]
+shape = SubResource("hit")
+
+[node name="PreviewBox" parent="ActionButtons/ModelSlots/ActionSlot1" index="4"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.19, 0.06)
+
+[node name="PreviewCylinder" parent="ActionButtons/ModelSlots/ActionSlot1" index="5"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.19, 0.06)
+
+[node name="SelectedStrip" parent="ActionButtons/ModelSlots/ActionSlot1" index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.05)
+
+[node name="ProductPlate" type="MeshInstance3D" parent="ActionButtons/ModelSlots/ActionSlot1" unique_id=2006365608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.015)
+material_override = ExtResource("7")
+mesh = SubResource("plate")
+
+[node name="ActionSlot2" parent="ActionButtons/ModelSlots" unique_id=1079497369 instance=ExtResource("3")]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0, 0.24, 0.04)
+id_field = "id"
+title_field = "title"
+subtitle_field = "category"
+color_field = "color"
+preview_shape_field = "preview_shape"
+default_color = "#2F7DD3"
+selected_lighten = 0.22
+preview_emission = 0.08
+selection_emission = 0.09
+preview_roughness = 0.62
+selection_roughness = 0.65
+
+[node name="Body" parent="ActionButtons/ModelSlots/ActionSlot2" index="0" unique_id=184449034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("card")
+surface_material_override/0 = ExtResource("card_surface")
+
+[node name="TitleLabel" parent="ActionButtons/ModelSlots/ActionSlot2" index="1" unique_id=1478048722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0.04)
+max_font_size = 34
+min_font_size = 30
+
+[node name="SubtitleLabel" parent="ActionButtons/ModelSlots/ActionSlot2" index="2" unique_id=652099099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.61, 0.041)
+pixel_size = 0.0028
+max_chars_per_line = 23
+max_lines = 2
+max_font_size = 26
+min_font_size = 24
+
+[node name="HitShape" parent="ActionButtons/ModelSlots/ActionSlot2/HitArea" parent_id_path=PackedInt32Array(1079497369, 2066597443) index="0" unique_id=765032076]
+shape = SubResource("hit")
+
+[node name="PreviewBox" parent="ActionButtons/ModelSlots/ActionSlot2" index="4"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.19, 0.06)
+
+[node name="PreviewCylinder" parent="ActionButtons/ModelSlots/ActionSlot2" index="5"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.19, 0.06)
+
+[node name="SelectedStrip" parent="ActionButtons/ModelSlots/ActionSlot2" index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.05)
+
+[node name="ProductPlate" type="MeshInstance3D" parent="ActionButtons/ModelSlots/ActionSlot2" unique_id=2030114936]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.015)
+material_override = ExtResource("7")
+mesh = SubResource("plate")
+
+[node name="ActionSlot3" parent="ActionButtons/ModelSlots" unique_id=134151328 instance=ExtResource("3")]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 0.82, 0.24, 0.04)
+id_field = "id"
+title_field = "title"
+subtitle_field = "category"
+color_field = "color"
+preview_shape_field = "preview_shape"
+default_color = "#2F7DD3"
+selected_lighten = 0.22
+preview_emission = 0.08
+selection_emission = 0.09
+preview_roughness = 0.62
+selection_roughness = 0.65
+
+[node name="Body" parent="ActionButtons/ModelSlots/ActionSlot3" index="0" unique_id=184449034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+mesh = SubResource("card")
+surface_material_override/0 = ExtResource("card_surface")
+
+[node name="TitleLabel" parent="ActionButtons/ModelSlots/ActionSlot3" index="1" unique_id=1478048722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34, 0.04)
+max_font_size = 34
+min_font_size = 30
+
+[node name="SubtitleLabel" parent="ActionButtons/ModelSlots/ActionSlot3" index="2" unique_id=652099099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.61, 0.041)
+pixel_size = 0.0028
+max_chars_per_line = 23
+max_lines = 2
+max_font_size = 26
+min_font_size = 24
+
+[node name="HitShape" parent="ActionButtons/ModelSlots/ActionSlot3/HitArea" parent_id_path=PackedInt32Array(134151328, 2066597443) index="0" unique_id=765032076]
+shape = SubResource("hit")
+
+[node name="PreviewBox" parent="ActionButtons/ModelSlots/ActionSlot3" index="4"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.19, 0.06)
+
+[node name="PreviewCylinder" parent="ActionButtons/ModelSlots/ActionSlot3" index="5"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.19, 0.06)
+
+[node name="SelectedStrip" parent="ActionButtons/ModelSlots/ActionSlot3" index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52, 0, 0.05)
+
+[node name="ProductPlate" type="MeshInstance3D" parent="ActionButtons/ModelSlots/ActionSlot3" unique_id=2010579393]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0.015)
+material_override = ExtResource("7")
+mesh = SubResource("plate")
+
+[node name="ScrollControls" type="Node3D" parent="ActionButtons" unique_id=1844235592]
+
+[node name="PageLabel" type="Label3D" parent="ActionButtons/ScrollControls" unique_id=1868322016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.46, 0.07)
+pixel_size = 0.0026
+render_priority = 10
+outline_render_priority = 9
+modulate = Color(0.69, 0.92, 0.86, 1)
+font_size = 28
+outline_size = 0
+
+[node name="Prev" parent="ActionButtons/ScrollControls" unique_id=730933447 instance=ExtResource("2")]
+transform = Transform3D(0.25, 0, 0, 0, 0.42, 0, 0, 0, 0.7, -1.05, -0.46, 0.04)
+demo_id = "__scroll_prev"
+title_text = "<"
+
+[node name="Next" parent="ActionButtons/ScrollControls" unique_id=1175192937 instance=ExtResource("2")]
+transform = Transform3D(0.25, 0, 0, 0, 0.42, 0, 0, 0, 0.7, 1.05, -0.46, 0.04)
+demo_id = "__scroll_next"
+title_text = ">"
+
+[node name="ControlButtons" type="Node3D" parent="ActionButtons" unique_id=939832925]
+
+[node name="Industry" parent="ActionButtons/ControlButtons" unique_id=657589348 instance=ExtResource("2")]
+transform = Transform3D(0.47, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.82, 1.05, 0.04)
+demo_id = "__collection_industrial"
+title_text = "Industria"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Furniture" parent="ActionButtons/ControlButtons" unique_id=1871218859 instance=ExtResource("2")]
+transform = Transform3D(0.47, 0, 0, 0, 0.57, 0, 0, 0, 0.7, 0, 1.05, 0.04)
+demo_id = "__collection_furniture"
+title_text = "Arredi"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control0" parent="ActionButtons/ControlButtons" unique_id=323617591 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.91, -0.7, 0.04)
+demo_id = "place_model"
+title_text = "Sposta"
+subtitle_text = "Anteprima"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control1" parent="ActionButtons/ControlButtons" unique_id=617794889 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.3, -0.7, 0.04)
+demo_id = "cancel_placement"
+title_text = "Annulla"
+subtitle_text = "Anteprima"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control2" parent="ActionButtons/ControlButtons" unique_id=542091544 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, 0.3, -0.7, 0.04)
+demo_id = "duplicate_model"
+title_text = "Aggiungi copia"
+subtitle_text = "Stesso arredo"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Menu" parent="ActionButtons/ControlButtons" unique_id=880436108 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, 0.91, -0.7, 0.04)
+demo_id = "menu"
+title_text = "Esci"
+subtitle_text = "Esperienze"
+
+[node name="Control4" parent="ActionButtons/ControlButtons" unique_id=794912433 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.91, -0.95, 0.04)
+demo_id = "model_info"
+title_text = "Scheda"
+subtitle_text = "Panoramica"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control5" parent="ActionButtons/ControlButtons" unique_id=1030289775 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.3, -0.95, 0.04)
+demo_id = "toggle_animation"
+title_text = "Play / pausa"
+subtitle_text = "Animazione"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control6" parent="ActionButtons/ControlButtons" unique_id=145649487 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, 0.91, -1.2, 0.04)
+demo_id = "delete_model"
+title_text = "Elimina"
+subtitle_text = "Arredo scelto"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control7" parent="ActionButtons/ControlButtons" unique_id=1151562788 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, 0.91, -0.95, 0.04)
+demo_id = "reset_model"
+title_text = "Ripristina"
+subtitle_text = "Vista"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control8" parent="ActionButtons/ControlButtons" unique_id=932033513 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.91, -1.2, 0.04)
+demo_id = "scale_down"
+title_text = "Scala −"
+subtitle_text = "Scala modello"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Control9" parent="ActionButtons/ControlButtons" unique_id=1711443784 instance=ExtResource("2")]
+transform = Transform3D(0.37, 0, 0, 0, 0.57, 0, 0, 0, 0.7, -0.3, -1.2, 0.04)
+demo_id = "scale_up"
+title_text = "Scala +"
+subtitle_text = "Scala modello"
+accent_color = Color(0.2, 0.6, 0.53, 1)
+
+[node name="Shared" parent="ActionButtons/ControlButtons" unique_id=800620144 instance=ExtResource("2")]
+transform = Transform3D(0.55, 0, 0, 0, 0.65, 0, 0, 0, 0.7, 0.82, 1.64, 0.04)
+demo_id = "shared_session"
+title_text = "Esperienza\nCondivisa"
+subtitle_text = ""
+accent_color = Color(0.12, 0.8, 0.6, 1)
+
+[node name="TitleLabel" parent="ActionButtons/ControlButtons/Shared" index="1" unique_id=1478048722]
+max_lines = 2
+max_font_size = 30
+
+[node name="XRHandTouchInteractor" parent="." unique_id=260603625 instance=ExtResource("5")]
+target_root_node_path = NodePath("../ActionButtons")
+
+[node name="InteractiveCollisionController" parent="." unique_id=1246998902 instance=ExtResource("6")]
+target_root_node_path = NodePath("..")
+
+[node name="DragHandle" parent="." unique_id=918369564 instance=ExtResource("drag")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.46, 0.07)
+panel_size = Vector2(2.7, 3.7)
+view_offset = Vector3(-0.95, -0.25, -1.75)
+
+[editable path="ActionButtons/ModelSlots/ActionSlot1"]
+[editable path="ActionButtons/ModelSlots/ActionSlot2"]
+[editable path="ActionButtons/ModelSlots/ActionSlot3"]
+[editable path="ActionButtons/ControlButtons/Shared"]

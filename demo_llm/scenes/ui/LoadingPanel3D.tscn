@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqlfq88bm5gno"]
+
+[ext_resource type="Script" path="res://scripts/ui/loading_panel_3d.gd" id="1_loading"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_panel.tres" id="2_panel_material"]
+[ext_resource type="Script" path="res://scripts/ui/fitted_label_3d.gd" id="3_fitted_label"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_panel"]
+size = Vector3(1.8, 0.55, 0.035)
+
+[node name="LoadingPanel3D" type="Node3D" unique_id=1495715854]
+script = ExtResource("1_loading")
+
+[node name="GlassPanel" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_panel")
+surface_material_override/0 = ExtResource("2_panel_material")
+
+[node name="MessageLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0.045)
+pixel_size = 0.0026
+script = ExtResource("3_fitted_label")
+max_chars_per_line = 22
+max_font_size = 30
+min_font_size = 16
+font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Loading..."
+modulate = Color(1, 1, 1, 1)

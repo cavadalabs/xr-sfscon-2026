@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/services/xr_agent_client.gd" id="1_client"]
+
+[node name="XRAgentClient" type="Node"]
+script = ExtResource("1_client")
+ws_url = "ws://192.168.1.100:8091/ws/realtime"
+min_voice_chunks = 3
+silence_commit_ms = 350
+max_turn_seconds = 12.0
+min_turn_ms = 300
+min_voice_ms = 120
+barge_in_enabled = true
+barge_in_threshold_multiplier = 1.7
+barge_in_voice_chunks = 3
+barge_in_grace_ms = 250
+
+[node name="PlaybackPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="MicrophonePlayer" type="AudioStreamPlayer" parent="."]

@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://brmlei3026hk1"]
+
+[ext_resource type="Script" uid="uid://ds30xqxw8cu24" path="res://scripts/ui/demo_button_3d.gd" id="1_button"]
+[ext_resource type="Script" uid="uid://b1h134on0edbu" path="res://scripts/ui/xr_pointer_area.gd" id="2_pointer_area"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_button.tres" id="3_button_material"]
+[ext_resource type="Script" path="res://scripts/ui/fitted_label_3d.gd" id="4_fitted_label"]
+
+[sub_resource type="QuadMesh" id="BoxMesh_body"]
+size = Vector2(1.57, 0.34)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hit"]
+size = Vector3(1.6, 0.42, 0.16)
+
+[node name="DemoButton3D" type="Node3D" unique_id=299694541]
+script = ExtResource("1_button")
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=184449034]
+mesh = SubResource("BoxMesh_body")
+surface_material_override/0 = ExtResource("3_button_material")
+
+[node name="TitleLabel" type="Label3D" parent="." unique_id=1478048722]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.052, 0.04)
+pixel_size = 0.0032
+script = ExtResource("4_fitted_label")
+max_chars_per_line = 12
+max_font_size = 44
+min_font_size = 26
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Demo"
+font_size = 38
+outline_size = 0
+
+[node name="SubtitleLabel" type="Label3D" parent="." unique_id=652099099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.085, 0.041)
+pixel_size = 0.003
+script = ExtResource("4_fitted_label")
+max_chars_per_line = 16
+max_font_size = 34
+min_font_size = 22
+modulate = Color(0.88, 0.92, 0.96, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Select"
+font_size = 26
+outline_size = 0
+
+[node name="HitArea" type="Area3D" parent="." unique_id=2066597443]
+collision_layer = 4194304
+collision_mask = 0
+script = ExtResource("2_pointer_area")
+
+[node name="HitShape" type="CollisionShape3D" parent="HitArea" unique_id=765032076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016174316, 0, 0)
+shape = SubResource("BoxShape3D_hit")

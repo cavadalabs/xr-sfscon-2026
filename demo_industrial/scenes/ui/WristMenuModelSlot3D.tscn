@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" uid="uid://brmlei3026hk1" path="res://scenes/ui/DemoButton3D.tscn" id="1_button"]
+[ext_resource type="Script" path="res://scripts/ui/wrist_menu_model_slot_3d.gd" id="2_slot_script"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_accent.tres" id="3_selected_strip_material"]
+[ext_resource type="Material" path="res://assets/materials/ui/glass_button.tres" id="4_preview_material"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_preview_box"]
+size = Vector3(0.22, 0.17, 0.055)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_preview_cylinder"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.06
+radial_segments = 24
+
+[sub_resource type="BoxMesh" id="BoxMesh_selected_strip"]
+size = Vector3(0.045, 0.25, 0.024)
+
+[node name="WristMenuModelSlot3D" instance=ExtResource("1_button")]
+visible = false
+script = ExtResource("2_slot_script")
+title_text = ""
+base_color = Color(0.12, 0.18, 0.24, 1)
+accent_mix = 0.07
+
+[node name="TitleLabel" parent="." index="1"]
+max_chars_per_line = 16
+max_lines = 2
+max_font_size = 42
+min_font_size = 24
+
+[node name="SubtitleLabel" parent="." index="2"]
+max_chars_per_line = 16
+max_font_size = 28
+min_font_size = 18
+
+[node name="ProductImage" type="Sprite3D" parent="."]
+visible = false
+modulate = Color(0.82, 0.82, 0.82, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19, 0.05)
+shaded = false
+pixel_size = 0.00155
+
+[node name="PreviewBox" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.58, 0, 0.075)
+visible = false
+mesh = SubResource("BoxMesh_preview_box")
+surface_material_override/0 = ExtResource("4_preview_material")
+
+[node name="PreviewCylinder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.72, 0, 0, 0, 1, -0.58, 0, 0.075)
+visible = false
+mesh = SubResource("CylinderMesh_preview_cylinder")
+surface_material_override/0 = ExtResource("4_preview_material")
+
+[node name="SelectedStrip" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.78, 0, 0.088)
+visible = false
+mesh = SubResource("BoxMesh_selected_strip")
+surface_material_override/0 = ExtResource("3_selected_strip_material")

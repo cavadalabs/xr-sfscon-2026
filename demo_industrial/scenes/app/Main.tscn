@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/app/main_single.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://bq026x4c4nd82" path="res://scenes/xr/XRRoot.tscn" id="2_xrroot"]
+[ext_resource type="PackedScene" path="res://scenes/app/XRContextProvider.tscn" id="6_context"]
+[ext_resource type="PackedScene" uid="uid://dqlfq88bm5gno" path="res://scenes/ui/LoadingPanel3D.tscn" id="5_loading"]
+[ext_resource type="Script" uid="uid://bo3rgibpcxn3s" path="res://scripts/demos/industrial/shared_industrial_state.gd" id="7_shared_state"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+demo_id = "industrial"
+demo_scene_path = "res://scenes/demos/industrial/IndustrialDemo.tscn"
+
+[node name="XRRoot" parent="." instance=ExtResource("2_xrroot")]
+
+[node name="AppServices" type="Node" parent="."]
+
+[node name="ContextProvider" parent="AppServices" instance=ExtResource("6_context")]
+
+[node name="SharedState" type="Node" parent="AppServices" groups=["shared_state"]]
+script = ExtResource("7_shared_state")
+
+[node name="DemoContainer" type="Node3D" parent="."]
+
+[node name="GlobalUI" type="Node3D" parent="."]
+
+[node name="LoadingPanel3D" parent="GlobalUI" instance=ExtResource("5_loading")]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 0, 1.38, -2.25)
+visible = false

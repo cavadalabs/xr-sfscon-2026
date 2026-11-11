@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+  <defs><radialGradient id="stage" cx=".48" cy=".35" r=".8"><stop stop-color="#657985"/><stop offset=".7" stop-color="#495e6c"/><stop offset="1" stop-color="#324955"/></radialGradient></defs>
+  <rect width="800" height="600" rx="30" fill="url(#stage)"/>
+  <ellipse cx="400" cy="478" rx="225" ry="38" fill="#142c38" opacity=".25"/>
+</svg>

@@ -1,0 +1,71 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="NOI XR · Industriale"
+run/main_scene="res://scenes/app/Main.tscn"
+config/features=PackedStringArray("4.7", "Mobile")
+config/icon="res://icon.svg"
+
+[audio]
+
+driver/enable_input=true
+
+[autoload]
+
+XRToolsUserSettings="*uid://bqgb8i74tm0t"
+XRToolsRumbleManager="*uid://by853dk86g1qw"
+
+[editor]
+
+import/use_multiple_threads=false
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
+
+[layer_names]
+
+3d_physics/layer_24="xr-room-surfaces"
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+rendering_device/driver.windows="d3d12"
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=2
+
+[xr]
+
+openxr/enabled=true
+openxr/reference_space=2
+openxr/extensions/hand_tracking=true
+openxr/extensions/hand_tracking_unobstructed_data_source=true
+openxr/extensions/hand_tracking_controller_data_source=true
+openxr/extensions/hand_interaction_profile=true
+openxr/extensions/spatial_entity/enabled=true
+openxr/extensions/spatial_entity/enable_spatial_anchors=true
+openxr/extensions/spatial_entity/enable_marker_tracking=true
+openxr/extensions/spatial_entity/enable_builtin_marker_tracking=true
+openxr/extensions/render_model=true
+shaders/enabled=true
+openxr/extensions/meta/hand_tracking_aim=true
+openxr/extensions/meta/hand_tracking_mesh=true
+openxr/extensions/meta/hand_tracking_capsules=true
+openxr/extensions/meta/render_model=true
+openxr/extensions/meta/scene_api=true
+openxr/extensions/meta/anchor_api=true
+openxr/extensions/meta/anchor_sharing=true
+openxr/extensions/meta/passthrough=true

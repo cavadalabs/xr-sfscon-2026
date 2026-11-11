@@ -1,0 +1,1163 @@
+[
+  {
+    "title": "Linea di ispezione",
+    "description": "Trasporto, visione e controllo in una stazione animata. Seleziona i punti numerati per esplorare i componenti.",
+    "category": "Automazione · 3 punti info",
+    "collection": "industrial",
+    "color": "#47D8BC",
+    "display_scale": 0.72,
+    "details": {
+      "Processo": "Trasporto e ispezione ottica",
+      "Interazione": "Punti info e pausa animazione",
+      "Modello": "Dimostratore, nessun dato macchina reale",
+      "Scala": "1:1 · metri del modello sorgente"
+    },
+    "source": {
+      "license": "Original project asset",
+      "tool": "Blender 5.2"
+    },
+    "hotspots": [
+      {
+        "anchor": "Info_motor",
+        "title": "01 · Gruppo di azionamento",
+        "body": "Il motoriduttore trasferisce il moto al rullo di trazione.\n\nLe alette favoriscono la dissipazione del calore. Il riduttore adatta la rotazione del motore al movimento del nastro."
+      },
+      {
+        "anchor": "Info_vision",
+        "title": "02 · Ispezione ottica",
+        "body": "Il sensore rileva il passaggio del pezzo sotto la camera.\n\nIn una linea reale, le immagini possono essere analizzate per controllare presenza, orientamento e difetti. Qui il ciclo è dimostrativo."
+      },
+      {
+        "anchor": "Info_controls",
+        "title": "03 · Comandi operatore",
+        "body": "Il pannello raccoglie stato del ciclo e comandi della stazione.\n\nIl pulsante a fungo rappresenta un arresto di emergenza. I valori sul display sono illustrativi e non provengono da un impianto."
+      }
+    ],
+    "id": "inspection_conveyor",
+    "model_path": "res://assets/models/showcase/inspection_conveyor.glb",
+    "thumbnail": "res://assets/catalog/inspection_conveyor.png",
+    "bounds_position": [
+      -1.075,
+      0.0,
+      -0.52225
+    ],
+    "bounds_size": [
+      2.15,
+      1.7865,
+      1.0445
+    ],
+    "target_size": 2.15,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 40764,
+      "mesh_objects": 10,
+      "texture_resolution": "Procedural materials",
+      "glb_bytes": 1174328
+    },
+    "real_scale": true
+  },
+  {
+    "title": "Trapano a colonna",
+    "description": "Pulegge, mandrino e tavola regolabile: esplora una macchina da officina.",
+    "category": "Lavorazione meccanica",
+    "collection": "industrial",
+    "color": "#47D8BC",
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/drill_press_01",
+      "authors": [
+        "Viktor"
+      ]
+    },
+    "details": {
+      "Processo": "Foratura a banco",
+      "Scheda": "Descrizione didattica del modello; nessuna telemetria reale",
+      "Movimento": "Pulegge e mandrino · animazione rallentata",
+      "Scala": "1:1 · metri del modello sorgente"
+    },
+    "animation_nodes": [
+      "drill_press_01_gear_a",
+      "drill_press_01_gear_b",
+      "drill_press_01_bit"
+    ],
+    "hotspots": [
+      {
+        "anchor": "Info_1",
+        "title": "01 · Trasmissione a cinghia",
+        "body": "La cinghia collega il motore al mandrino attraverso le pulegge. I diametri dei gradini permettono rapporti di trasmissione diversi.\n\nIl riparo è aperto nella vista didattica. La rotazione è illustrativa e rallentata."
+      },
+      {
+        "anchor": "Info_2",
+        "title": "02 · Mandrino e punta",
+        "body": "Il mandrino trattiene la punta e le trasmette la rotazione. Il gruppo scorre verticalmente lungo il cannotto.\n\nOsserva il profilo della punta e il collegamento con la testa del trapano."
+      },
+      {
+        "anchor": "Info_3",
+        "title": "03 · Tavola e colonna",
+        "body": "La tavola sostiene il pezzo sotto la punta. Le asole permettono di fissare attrezzature e morsetti.\n\nLa colonna collega base, tavola e testa mantenendo allineata la struttura."
+      }
+    ],
+    "id": "drill_press_01",
+    "model_path": "res://assets/models/showcase/drill_press_01.glb",
+    "thumbnail": "res://assets/catalog/drill_press_01.png",
+    "bounds_position": [
+      -0.182931,
+      0.0,
+      -0.299393
+    ],
+    "bounds_size": [
+      0.365863,
+      0.901565,
+      0.598785
+    ],
+    "target_size": 1.2,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 58526,
+      "mesh_objects": 13,
+      "texture_resolution": "2K",
+      "glb_bytes": 1971444
+    },
+    "real_scale": true
+  },
+  {
+    "title": "Generatore portatile",
+    "description": "Telaio tubolare, gruppo motore e pannello prese con materiali e segni di utilizzo.",
+    "category": "Energia",
+    "collection": "industrial",
+    "color": "#47D8BC",
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/portable_generator",
+      "authors": [
+        "James Ray Cock"
+      ]
+    },
+    "details": {
+      "Processo": "Generazione elettrica",
+      "Scheda": "Descrizione didattica del modello; nessuna telemetria reale",
+      "Scala": "1:1 · metri del modello sorgente"
+    },
+    "hotspots": [
+      {
+        "anchor": "Info_1",
+        "title": "01 · Pannello di distribuzione",
+        "body": "Prese, indicatori e interruttori sono raccolti sul lato frontale. Il pannello è il punto di interfaccia tra generatore e utilizzatori.\n\nLe scritte appartengono al modello 3D e non sono misure in tempo reale."
+      },
+      {
+        "anchor": "Info_2",
+        "title": "02 · Motore e alternatore",
+        "body": "Il motore fornisce energia meccanica all’alternatore, che la converte in energia elettrica.\n\nIl gruppo è alloggiato nella parte inferiore del telaio: osserva carter, griglie e collegamenti."
+      },
+      {
+        "anchor": "Info_3",
+        "title": "03 · Serbatoio e struttura",
+        "body": "Il serbatoio occupa la parte superiore. Il telaio tubolare sostiene e protegge il gruppo durante la movimentazione.\n\nFiniture, saldature e appoggi rendono leggibile la costruzione dell’insieme."
+      }
+    ],
+    "id": "portable_generator",
+    "model_path": "res://assets/models/showcase/portable_generator.glb",
+    "thumbnail": "res://assets/catalog/portable_generator.png",
+    "bounds_position": [
+      -0.40917,
+      0.0,
+      -0.282
+    ],
+    "bounds_size": [
+      0.818341,
+      0.576923,
+      0.564
+    ],
+    "target_size": 1.2,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 26419,
+      "mesh_objects": 4,
+      "texture_resolution": "2K",
+      "glb_bytes": 968628
+    },
+    "real_scale": true
+  },
+  {
+    "title": "Compressore carrellato",
+    "description": "Serbatoio, gruppo pompante e trasmissione a cinghia in un modello da osservare da vicino.",
+    "category": "Pneumatica",
+    "collection": "industrial",
+    "color": "#47D8BC",
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/old_military_compressor",
+      "authors": [
+        "Brian Speight"
+      ]
+    },
+    "details": {
+      "Processo": "Produzione di aria compressa",
+      "Scheda": "Descrizione didattica del modello; nessuna telemetria reale",
+      "Scala": "1:1 · metri del modello sorgente"
+    },
+    "hotspots": [
+      {
+        "anchor": "Info_1",
+        "title": "01 · Serbatoio dell’aria",
+        "body": "Il recipiente accumula aria compressa e attenua le variazioni di portata del gruppo pompante.\n\nLa forma cilindrica e le estremità arrotondate rendono riconoscibile il volume di accumulo."
+      },
+      {
+        "anchor": "Info_2",
+        "title": "02 · Gruppo pompante",
+        "body": "Il gruppo posto sopra il serbatoio comprime l’aria. Le alette sulla testata aumentano la superficie disponibile per disperdere il calore.\n\nOsserva i collegamenti e la costruzione del corpo cilindro."
+      },
+      {
+        "anchor": "Info_3",
+        "title": "03 · Volano e cinghia",
+        "body": "La trasmissione a cinghia trasferisce la rotazione al gruppo pompante. Il grande volano è visibile sul fianco.\n\nIn questa scheda il modello è statico: serve a esplorare forma, materiali e disposizione dei componenti."
+      }
+    ],
+    "id": "old_military_compressor",
+    "model_path": "res://assets/models/showcase/old_military_compressor.glb",
+    "thumbnail": "res://assets/catalog/old_military_compressor.png",
+    "bounds_position": [
+      -0.299141,
+      0.0,
+      -0.837772
+    ],
+    "bounds_size": [
+      0.598283,
+      1.179086,
+      1.675544
+    ],
+    "target_size": 1.2,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 79042,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 2426956
+    },
+    "real_scale": true
+  },
+  {
+    "title": "Microscopio industriale",
+    "description": "Ottiche, tavolino e regolazioni di messa a fuoco per una stazione di ispezione.",
+    "category": "Controllo qualità",
+    "collection": "industrial",
+    "color": "#47D8BC",
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/industrial_microscope",
+      "authors": [
+        "Lukas Walzer"
+      ]
+    },
+    "details": {
+      "Processo": "Ispezione ottica",
+      "Scheda": "Descrizione didattica del modello; nessuna telemetria reale",
+      "Scala": "1:1 · metri del modello sorgente"
+    },
+    "hotspots": [
+      {
+        "anchor": "Info_1",
+        "title": "01 · Testa ottica",
+        "body": "Gli oculari permettono l’osservazione del campione. Il percorso ottico collega la testa agli obiettivi posti sul revolver.\n\nIl modello mostra anche una porta superiore per accessori ottici."
+      },
+      {
+        "anchor": "Info_2",
+        "title": "02 · Obiettivi e tavolino",
+        "body": "Il revolver porta più obiettivi; il tavolino mantiene il campione sotto l’asse ottico.\n\nQuesta disposizione consente di osservare dettagli di superfici e piccoli componenti."
+      },
+      {
+        "anchor": "Info_3",
+        "title": "03 · Messa a fuoco",
+        "body": "Le manopole sul fianco regolano la posizione relativa tra campione e ottica. La struttura mantiene stabile l’allineamento.\n\nLa scheda è una vista didattica esterna, senza acquisizione di immagini dal microscopio."
+      }
+    ],
+    "id": "industrial_microscope",
+    "model_path": "res://assets/models/showcase/industrial_microscope.glb",
+    "thumbnail": "res://assets/catalog/industrial_microscope.png",
+    "bounds_position": [
+      -0.107267,
+      0.0,
+      -0.249045
+    ],
+    "bounds_size": [
+      0.214535,
+      0.461744,
+      0.498091
+    ],
+    "target_size": 1.2,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 16598,
+      "mesh_objects": 2,
+      "texture_resolution": "2K",
+      "glb_bytes": 617976
+    },
+    "real_scale": true
+  },
+  {
+    "title": "Cassettiera utensili",
+    "description": "Coperchio animato, frontali mobili, maniglie e dettagli della lamiera verniciata.",
+    "category": "Officina",
+    "collection": "industrial",
+    "color": "#47D8BC",
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/metal_tool_chest",
+      "authors": [
+        "Yann Kervran",
+        "John Hutcheson"
+      ]
+    },
+    "details": {
+      "Processo": "Organizzazione utensili",
+      "Scheda": "Descrizione didattica del modello; nessuna telemetria reale",
+      "Movimento": "Coperchio e corsa breve dei frontali",
+      "Scala": "1:1 · metri del modello sorgente"
+    },
+    "animation_nodes": [
+      "Info_1",
+      "Info_2"
+    ],
+    "hotspots": [
+      {
+        "anchor": "Info_1",
+        "title": "01 · Coperchio e cerniere",
+        "body": "Il coperchio ruota sulle cerniere posteriori. I collegamenti laterali accompagnano l’apertura.\n\nIl punto informativo segue il coperchio durante il ciclo; usa Play / pausa per fermarlo."
+      },
+      {
+        "anchor": "Info_2",
+        "title": "02 · Cassetti porta utensili",
+        "body": "Le maniglie orizzontali rendono riconoscibili i diversi vani porta utensili. I frontali hanno una breve corsa dimostrativa.\n\nIl modello permette di esplorare l’organizzazione dei vani e la costruzione della cassa."
+      },
+      {
+        "anchor": "Info_3",
+        "title": "03 · Struttura e maniglie",
+        "body": "La cassa in lamiera raccoglie i vani porta utensili e sostiene le guide dei cassetti. Le maniglie laterali completano l’insieme.\n\nOsserva bordi ripiegati, fissaggi e usura della verniciatura."
+      }
+    ],
+    "id": "metal_tool_chest",
+    "model_path": "res://assets/models/showcase/metal_tool_chest.glb",
+    "thumbnail": "res://assets/catalog/metal_tool_chest.png",
+    "bounds_position": [
+      -0.342694,
+      0.0,
+      -0.203577
+    ],
+    "bounds_size": [
+      0.685388,
+      0.651836,
+      0.407153
+    ],
+    "target_size": 1.2,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 13380,
+      "mesh_objects": 7,
+      "texture_resolution": "2K",
+      "glb_bytes": 727312
+    },
+    "real_scale": true
+  },
+  {
+    "id": "robot_arm_ultralight",
+    "title": "Robot Arm",
+    "description": "Ultra-light robotic arm for fast XR inspection.",
+    "category": "Automation",
+    "model_path": "res://assets/models/industrial/robot_arm_ultralight.glb",
+    "preview_shape": "box",
+    "color": "#356EC9",
+    "animation": "Take 001",
+    "preload": true,
+    "target_size": 1.18,
+    "display_scale": 1.0,
+    "bounds_position": [
+      -0.385964,
+      0.0,
+      -0.304755
+    ],
+    "bounds_size": [
+      0.702695,
+      0.712937,
+      0.61197
+    ],
+    "bounds_ignore_contains": [
+      "Line",
+      "Box001_03"
+    ],
+    "source": {
+      "file": "robot_arm.glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Fast XR inspection",
+      "Weight": "0.6 MB",
+      "Perf": "Quest-safe default"
+    },
+    "thumbnail": "res://assets/catalog/robot_arm_ultralight.png"
+  },
+  {
+    "id": "robotic_arm_welder_light",
+    "title": "Welding Robot Arm",
+    "description": "Animated welding robot arm for automation demos.",
+    "category": "Welding automation",
+    "model_path": "res://assets/models/industrial/robotic_arm_welder_light.glb",
+    "preview_shape": "box",
+    "color": "#D16A36",
+    "animation": "Root|RootAction",
+    "preload": false,
+    "entry_modes": [
+      "catalog",
+      "qr"
+    ],
+    "qr_payloads": [
+      "https://cavadalabs.com/",
+      "https://cavadalabs.com",
+      "cavadalabs.com",
+      "robotic_arm_welder_light"
+    ],
+    "qr_anchor_on_detect": true,
+    "qr_spawn_offset": [
+      0.0,
+      0.04,
+      0.0
+    ],
+    "qr_spawn_yaw_deg": 0.0,
+    "target_size": 1.18,
+    "display_scale": 1.0,
+    "bounds_position": [
+      -0.095439,
+      -0.01046,
+      -0.0635
+    ],
+    "bounds_size": [
+      0.193926,
+      0.148159,
+      0.129259
+    ],
+    "source": {
+      "file": "robotic_arm (1).glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Animated welding cell",
+      "Weight": "4.3 MB",
+      "Perf": "Quest-safe candidate"
+    },
+    "thumbnail": "res://assets/catalog/robotic_arm_welder_light.png"
+  },
+  {
+    "id": "electric_motor",
+    "title": "Electric Motor",
+    "description": "Compact motor for drivetrain explanation.",
+    "category": "Electromechanical",
+    "model_path": "res://assets/models/industrial/electric_motor_animated.glb",
+    "preview_shape": "cylinder",
+    "color": "#7A8EA3",
+    "animation": "Take 01",
+    "preload": false,
+    "target_size": 1.1,
+    "display_scale": 1.0,
+    "bounds_position": [
+      -15.44988,
+      -5.221583,
+      -14.95924
+    ],
+    "bounds_size": [
+      29.841579,
+      7.653862,
+      29.845516
+    ],
+    "source": {
+      "file": "electric_motor (1).glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Component explanation",
+      "Weight": "2.8 MB",
+      "Perf": "Moderate"
+    },
+    "thumbnail": "res://assets/catalog/electric_motor.png"
+  },
+  {
+    "id": "nx47_datacore_droid",
+    "title": "NX-47 Droid",
+    "description": "Futuristic robot for AI automation storytelling.",
+    "category": "AI robotics",
+    "model_path": "res://assets/models/industrial/nx47_datacore_droid.glb",
+    "preview_shape": "box",
+    "color": "#E2793D",
+    "preload": false,
+    "target_size": 1.18,
+    "display_scale": 1.2,
+    "bounds_position": [
+      -3.21384,
+      0.057684,
+      -3.300054
+    ],
+    "bounds_size": [
+      6.058474,
+      11.099211,
+      7.469935
+    ],
+    "source": {
+      "file": "nx-47_datacore_droid__futuristic_ai_robot.glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "AI assistant object",
+      "Weight": "2.9 MB",
+      "Perf": "Quest-safe"
+    },
+    "thumbnail": "res://assets/catalog/nx47_datacore_droid.png"
+  },
+  {
+    "id": "f1_rocketdine_engine",
+    "title": "F1 Rocket Engine",
+    "description": "Lightweight rocket engine for technical exhibits.",
+    "category": "Aerospace component",
+    "model_path": "res://assets/models/industrial/f1_rocketdine_engine_optimized.glb",
+    "preview_shape": "cylinder",
+    "color": "#A35F42",
+    "preload": false,
+    "target_size": 1.15,
+    "display_scale": 1.0,
+    "bounds_position": [
+      -1.325513,
+      -1.469518,
+      -1.33534
+    ],
+    "bounds_size": [
+      2.659309,
+      4.098308,
+      2.664567
+    ],
+    "source": {
+      "file": "f1_rocketdine_engine_optimized.glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Technical exhibit",
+      "Weight": "3.7 MB",
+      "Perf": "Quest-safe"
+    },
+    "thumbnail": "res://assets/catalog/f1_rocketdine_engine.png"
+  },
+  {
+    "id": "centrifugal_pump",
+    "title": "Centrifugal Pump",
+    "description": "Industrial pump for fluid handling demos.",
+    "category": "Fluid systems",
+    "model_path": "res://assets/models/industrial/centrifugal_pump.glb",
+    "preview_shape": "cylinder",
+    "color": "#2F8C7A",
+    "preload": false,
+    "target_size": 1.08,
+    "display_scale": 1.0,
+    "bounds_position": [
+      17.290199,
+      0.0,
+      -86.681976
+    ],
+    "bounds_size": [
+      22.894512,
+      58.667984,
+      86.681976
+    ],
+    "source": {
+      "file": "centrifugal_pump__bomba_centrifuga.glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Pump inspection",
+      "Weight": "5.3 MB",
+      "Perf": "Moderate"
+    },
+    "thumbnail": "res://assets/catalog/centrifugal_pump.png"
+  },
+  {
+    "id": "le9_engine",
+    "title": "LE-9 Engine",
+    "description": "Rocket engine for aerospace comparison.",
+    "category": "Aerospace component",
+    "model_path": "res://assets/models/industrial/le9_engine.glb",
+    "preview_shape": "cylinder",
+    "color": "#8A6E55",
+    "preload": false,
+    "target_size": 1.14,
+    "display_scale": 1.0,
+    "bounds_position": [
+      -15.0,
+      -27.515465,
+      -15.0
+    ],
+    "bounds_size": [
+      30.0,
+      37.915466,
+      30.0
+    ],
+    "source": {
+      "file": "le-9.glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Engine comparison",
+      "Weight": "5.9 MB",
+      "Perf": "Moderate"
+    },
+    "thumbnail": "res://assets/catalog/le9_engine.png"
+  },
+  {
+    "id": "mule_robot_light",
+    "title": "Mule Robot",
+    "description": "Light mobile robot platform.",
+    "category": "Mobile robotics",
+    "model_path": "res://assets/models/industrial/mule_robot_light.glb",
+    "preview_shape": "box",
+    "color": "#9B6B43",
+    "preload": false,
+    "target_size": 1.18,
+    "display_scale": 1.12,
+    "bounds_position": [
+      -7.573418,
+      -1.046677,
+      -7.819088
+    ],
+    "bounds_size": [
+      15.45979,
+      2.344136,
+      15.45979
+    ],
+    "source": {
+      "file": "mule_robot (1).glb",
+      "license": "CC-BY-4.0"
+    },
+    "details": {
+      "Use": "Robotics showcase",
+      "Weight": "6.2 MB",
+      "Perf": "Moderate"
+    },
+    "thumbnail": "res://assets/catalog/mule_robot_light.png"
+  },
+  {
+    "title": "Poltrona Lounge",
+    "description": "Poltrona in legno e pelle: osserva le pieghe, le cuciture e la struttura da ogni angolazione.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/mid_century_lounge_chair",
+      "authors": [
+        "Kuutti Siitonen"
+      ]
+    },
+    "details": {
+      "Materiali": "Pelle, legno e metallo",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "101 × 119 × 117 cm (L × P × H)"
+    },
+    "id": "mid_century_lounge_chair",
+    "model_path": "res://assets/models/showcase/mid_century_lounge_chair.glb",
+    "thumbnail": "res://assets/catalog/mid_century_lounge_chair.png",
+    "bounds_position": [
+      -0.504307,
+      0.0,
+      -0.595155
+    ],
+    "bounds_size": [
+      1.008614,
+      1.169085,
+      1.190311
+    ],
+    "target_size": 1.190311,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 6148,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 173984
+    },
+    "wall_snap": false
+  },
+  {
+    "title": "Tavolino Studio",
+    "description": "Tavolino in pietra scura con inserto geometrico in legno. Prova dimensioni e abbinamento nella tua stanza.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/modern_coffee_table_02",
+      "authors": [
+        "Amin"
+      ]
+    },
+    "details": {
+      "Materiali": "Pietra scura e inserto in legno",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "120 × 120 × 37 cm (L × P × H)"
+    },
+    "id": "modern_coffee_table_02",
+    "model_path": "res://assets/models/showcase/modern_coffee_table_02.glb",
+    "thumbnail": "res://assets/catalog/modern_coffee_table_02.png",
+    "bounds_position": [
+      -0.599556,
+      0.0,
+      -0.599828
+    ],
+    "bounds_size": [
+      1.199111,
+      0.36925,
+      1.199657
+    ],
+    "target_size": 1.199657,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 13645,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 903360
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Madia Atelier",
+    "description": "Ante curve a listelli verticali, struttura scura e piedini sottili.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/modern_wooden_cabinet",
+      "authors": [
+        "Patrik Pangerl"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno e metallo",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "244 × 52 × 68 cm (L × P × H)"
+    },
+    "id": "modern_wooden_cabinet",
+    "model_path": "res://assets/models/showcase/modern_wooden_cabinet.glb",
+    "thumbnail": "res://assets/catalog/modern_wooden_cabinet.png",
+    "bounds_position": [
+      -1.22,
+      0.0,
+      -0.26
+    ],
+    "bounds_size": [
+      2.440001,
+      0.680143,
+      0.52
+    ],
+    "target_size": 2.440001,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 24976,
+      "mesh_objects": 3,
+      "texture_resolution": "2K",
+      "glb_bytes": 1179244
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Poltrona Nordic",
+    "description": "Telaio in legno a vista e cuscini in pelle nera con pieghe e cuciture.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/modern_arm_chair_01",
+      "authors": [
+        "Vibrant Nordic"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno e pelle",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "82 × 99 × 102 cm (L × P × H)"
+    },
+    "id": "modern_arm_chair_01",
+    "model_path": "res://assets/models/showcase/modern_arm_chair_01.glb",
+    "thumbnail": "res://assets/catalog/modern_arm_chair_01.png",
+    "bounds_position": [
+      -0.410172,
+      0.0,
+      -0.493281
+    ],
+    "bounds_size": [
+      0.820344,
+      1.022852,
+      0.986562
+    ],
+    "target_size": 1.022852,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 8916,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 249108
+    },
+    "wall_snap": false
+  },
+  {
+    "title": "Divano Heritage",
+    "description": "Imbottitura capitonné e cornice lavorata per un salotto classico.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/sofa_02",
+      "authors": [
+        "Kirill Sannikov"
+      ]
+    },
+    "details": {
+      "Materiali": "Pelle, tessuto e legno",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "181 × 82 × 71 cm (L × P × H)"
+    },
+    "id": "sofa_02",
+    "model_path": "res://assets/models/showcase/sofa_02.glb",
+    "thumbnail": "res://assets/catalog/sofa_02.png",
+    "bounds_position": [
+      -0.903584,
+      0.0,
+      -0.408876
+    ],
+    "bounds_size": [
+      1.807167,
+      0.709489,
+      0.817751
+    ],
+    "target_size": 1.807167,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 2728,
+      "mesh_objects": 2,
+      "texture_resolution": "2K",
+      "glb_bytes": 77584
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Sedia Dining",
+    "description": "Schienale alto imbottito, bottoni e gambe in legno scuro.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/dining_chair_02",
+      "authors": [
+        "James Ray Cock"
+      ]
+    },
+    "details": {
+      "Materiali": "Pelle e legno",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "43 × 58 × 97 cm (L × P × H)"
+    },
+    "id": "dining_chair_02",
+    "model_path": "res://assets/models/showcase/dining_chair_02.glb",
+    "thumbnail": "res://assets/catalog/dining_chair_02.png",
+    "bounds_position": [
+      -0.216785,
+      0.0,
+      -0.28821
+    ],
+    "bounds_size": [
+      0.433571,
+      0.973378,
+      0.57642
+    ],
+    "target_size": 0.973378,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 22013,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 546420
+    },
+    "wall_snap": false
+  },
+  {
+    "title": "Tavolino Orbit",
+    "description": "Piano circolare chiaro con venature e base metallica intrecciata.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/coffee_table_round_01",
+      "authors": [
+        "Ulan Cabanilla"
+      ]
+    },
+    "details": {
+      "Materiali": "Marmo e metallo",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "130 × 130 × 49 cm (L × P × H)"
+    },
+    "id": "coffee_table_round_01",
+    "model_path": "res://assets/models/showcase/coffee_table_round_01.glb",
+    "thumbnail": "res://assets/catalog/coffee_table_round_01.png",
+    "bounds_position": [
+      -0.650651,
+      0.0,
+      -0.650651
+    ],
+    "bounds_size": [
+      1.301301,
+      0.491009,
+      1.301302
+    ],
+    "target_size": 1.301302,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 4044,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 132976
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Comodino Oak",
+    "description": "Due ripiani aperti e venature calde: prova lo spazio accanto a una seduta.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/side_table_01",
+      "authors": [
+        "James Ray Cock"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "55 × 45 × 55 cm (L × P × H)"
+    },
+    "id": "side_table_01",
+    "model_path": "res://assets/models/showcase/side_table_01.glb",
+    "thumbnail": "res://assets/catalog/side_table_01.png",
+    "bounds_position": [
+      -0.275,
+      0.0,
+      -0.225
+    ],
+    "bounds_size": [
+      0.55,
+      0.550662,
+      0.45
+    ],
+    "target_size": 0.550662,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 2756,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 122632
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Libreria Workshop",
+    "description": "Ripiani profondi, bordi stratificati e finitura vissuta per uno spazio creativo.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/wooden_bookshelf_worn",
+      "authors": [
+        "Ulan Cabanilla"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno e metallo",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "137 × 58 × 206 cm (L × P × H)"
+    },
+    "id": "wooden_bookshelf_worn",
+    "model_path": "res://assets/models/showcase/wooden_bookshelf_worn.glb",
+    "thumbnail": "res://assets/catalog/wooden_bookshelf_worn.png",
+    "bounds_position": [
+      -0.686976,
+      0.0,
+      -0.290651
+    ],
+    "bounds_size": [
+      1.373952,
+      2.063442,
+      0.581302
+    ],
+    "target_size": 2.063442,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 10106,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 269784
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Sgabello Club",
+    "description": "Seduta rotonda, bordo lavorato e anello poggiapiedi.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/bar_chair_round_01",
+      "authors": [
+        "Dairon Sanchez"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "48 × 49 × 75 cm (L × P × H)"
+    },
+    "id": "bar_chair_round_01",
+    "model_path": "res://assets/models/showcase/bar_chair_round_01.glb",
+    "thumbnail": "res://assets/catalog/bar_chair_round_01.png",
+    "bounds_position": [
+      -0.241575,
+      0.0,
+      -0.242998
+    ],
+    "bounds_size": [
+      0.48315,
+      0.750548,
+      0.485996
+    ],
+    "target_size": 0.750548,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 14373,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 1019140
+    },
+    "wall_snap": false
+  },
+  {
+    "title": "Tavolo Bistro",
+    "description": "Piano rotondo scuro, piedistallo centrale e piedi metallici sottili.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/round_wooden_table_02",
+      "authors": [
+        "Ulan Cabanilla"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno e metallo",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "80 × 80 × 75 cm (L × P × H)"
+    },
+    "id": "round_wooden_table_02",
+    "model_path": "res://assets/models/showcase/round_wooden_table_02.glb",
+    "thumbnail": "res://assets/catalog/round_wooden_table_02.png",
+    "bounds_position": [
+      -0.398089,
+      0.0,
+      -0.398089
+    ],
+    "bounds_size": [
+      0.796178,
+      0.746027,
+      0.796178
+    ],
+    "target_size": 0.796178,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 4254,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 137360
+    },
+    "wall_snap": true
+  },
+  {
+    "title": "Consolle Heritage",
+    "description": "Consolle stretta con dettagli intagliati e finitura tradizionale.",
+    "category": "Arredi · scala reale",
+    "collection": "furniture",
+    "color": "#D7B58A",
+    "real_scale": true,
+    "source": {
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/chinese_console_table",
+      "authors": [
+        "Kirill Sannikov"
+      ]
+    },
+    "details": {
+      "Materiali": "Legno",
+      "Scala": "1:1 rispetto al modello sorgente",
+      "Dimensioni": "172 × 34 × 66 cm (L × P × H)"
+    },
+    "id": "chinese_console_table",
+    "model_path": "res://assets/models/showcase/chinese_console_table.glb",
+    "thumbnail": "res://assets/catalog/chinese_console_table.png",
+    "bounds_position": [
+      -0.859812,
+      0.0,
+      -0.169397
+    ],
+    "bounds_size": [
+      1.719625,
+      0.660742,
+      0.338793
+    ],
+    "target_size": 1.719625,
+    "preview_shape": "box",
+    "preload": false,
+    "asset_stats": {
+      "triangles": 13648,
+      "mesh_objects": 1,
+      "texture_resolution": "2K",
+      "glb_bytes": 512652
+    },
+    "wall_snap": true
+  }
+]

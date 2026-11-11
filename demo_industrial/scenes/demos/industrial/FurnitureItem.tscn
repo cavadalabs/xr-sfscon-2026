@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfurnitem3d1x"]
+
+[ext_resource type="Script" path="res://scripts/demos/industrial/furniture_item.gd" id="1_furniture"]
+[ext_resource type="Script" path="res://scripts/ui/xr_pointer_area.gd" id="2_pointer_area"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hit"]
+
+[node name="FurnitureItem" type="Node3D"]
+script = ExtResource("1_furniture")
+
+[node name="ModelAnchor" type="Node3D" parent="."]
+
+[node name="CurrentModel" type="Node3D" parent="ModelAnchor"]
+
+[node name="HitArea" type="Area3D" parent="."]
+collision_layer = 1048576
+collision_mask = 0
+script = ExtResource("2_pointer_area")
+
+[node name="HitShape" type="CollisionShape3D" parent="HitArea"]
+shape = SubResource("BoxShape3D_hit")
+
+[node name="SelectionLabel" type="Label3D" parent="."]
+visible = false
+modulate = Color(0.635294, 0.917647, 0.847059, 1)
+text = "SELEZIONATO"
+billboard = 1
+font_size = 26
+pixel_size = 0.0018

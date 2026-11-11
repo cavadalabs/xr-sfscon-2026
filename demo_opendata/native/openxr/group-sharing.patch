@@ -1,0 +1,503 @@
+diff --git a/plugin/src/main/cpp/classes/openxr_fb_spatial_entity.cpp b/plugin/src/main/cpp/classes/openxr_fb_spatial_entity.cpp
+index 22f90cb..e45da44 100644
+--- a/plugin/src/main/cpp/classes/openxr_fb_spatial_entity.cpp
++++ b/plugin/src/main/cpp/classes/openxr_fb_spatial_entity.cpp
+@@ -52,6 +52,8 @@
+ using namespace godot;
+ 
+ void OpenXRFbSpatialEntity::_bind_methods() {
++	ClassDB::bind_method(D_METHOD("share_with_group", "group_uuid"), &OpenXRFbSpatialEntity::share_with_group);
++	ADD_SIGNAL(MethodInfo("openxr_meta_spatial_entity_group_shared", PropertyInfo(Variant::BOOL, "succeeded"), PropertyInfo(Variant::INT, "result")));
+ 	ClassDB::bind_method(D_METHOD("get_uuid"), &OpenXRFbSpatialEntity::get_uuid);
+ 	ClassDB::bind_method(D_METHOD("set_custom_data"), &OpenXRFbSpatialEntity::set_custom_data);
+ 	ClassDB::bind_method(D_METHOD("get_custom_data"), &OpenXRFbSpatialEntity::get_custom_data);
+@@ -477,6 +479,25 @@ void OpenXRFbSpatialEntity::_on_share_with_users(XrResult p_result, void *p_user
+ 	memdelete(userdata);
+ }
+ 
++bool OpenXRFbSpatialEntity::share_with_group(const String &p_group_uuid) {
++	String compact = p_group_uuid.replace("-", "");
++	ERR_FAIL_COND_V_MSG(compact.length() != 32 || !compact.is_valid_hex_number(false), false, "Invalid group UUID");
++	ERR_FAIL_COND_V_MSG(space == XR_NULL_HANDLE, false, "Anchor does not exist");
++	PackedByteArray bytes = compact.hex_decode();
++	XrUuid group;
++	memcpy(group.data, bytes.ptr(), 16);
++	XrShareSpacesRecipientGroupsMETA recipient = { XR_TYPE_SHARE_SPACES_RECIPIENT_GROUPS_META, nullptr, 1, &group };
++	XrShareSpacesInfoMETA info = { XR_TYPE_SHARE_SPACES_INFO_META, nullptr, 1, &space, reinterpret_cast<XrShareSpacesRecipientBaseHeaderMETA *>(&recipient) };
++	Ref<OpenXRFbSpatialEntity> *userdata = memnew(Ref<OpenXRFbSpatialEntity>(this));
++	return OpenXRFbSpatialEntitySharingExtension::get_singleton()->share_spaces_with_group(&info, _on_share_with_group, userdata);
++}
++
++void OpenXRFbSpatialEntity::_on_share_with_group(XrResult p_result, void *p_userdata) {
++	auto *userdata = static_cast<Ref<OpenXRFbSpatialEntity> *>(p_userdata);
++	(*userdata)->emit_signal("openxr_meta_spatial_entity_group_shared", XR_SUCCEEDED(p_result), static_cast<int>(p_result));
++	memdelete(userdata);
++}
++
+ void OpenXRFbSpatialEntity::destroy() {
+ 	ERR_FAIL_COND_MSG(space == XR_NULL_HANDLE, "Underlying spatial entity doesn't exist (yet) or has been destroyed.");
+ 	OpenXRFbSpatialEntityExtension *spatial_entity_extension_wrapper = OpenXRFbSpatialEntityExtension::get_singleton();
+diff --git a/plugin/src/main/cpp/classes/openxr_fb_spatial_entity_query.cpp b/plugin/src/main/cpp/classes/openxr_fb_spatial_entity_query.cpp
+index f788e0d..4b58475 100644
+--- a/plugin/src/main/cpp/classes/openxr_fb_spatial_entity_query.cpp
++++ b/plugin/src/main/cpp/classes/openxr_fb_spatial_entity_query.cpp
+@@ -30,12 +30,17 @@
+ #include "classes/openxr_fb_spatial_entity_query.h"
+ 
+ #include <godot_cpp/templates/local_vector.hpp>
++#include <cmath>
++#include "extensions/openxr_fb_spatial_entity_sharing_extension.h"
+ 
+ #include "extensions/openxr_fb_spatial_entity_query_extension.h"
+ 
+ using namespace godot;
+ 
+ void OpenXRFbSpatialEntityQuery::_bind_methods() {
++	ClassDB::bind_method(D_METHOD("query_by_group", "group_uuid"), &OpenXRFbSpatialEntityQuery::query_by_group);
++	BIND_ENUM_CONSTANT(QUERY_BY_GROUP);
++	ADD_SIGNAL(MethodInfo("openxr_fb_spatial_entity_query_completed_with_result", PropertyInfo(Variant::ARRAY, "results"), PropertyInfo(Variant::INT, "result")));
+ 	ClassDB::bind_method(D_METHOD("set_max_results", "count"), &OpenXRFbSpatialEntityQuery::set_max_results);
+ 	ClassDB::bind_method(D_METHOD("get_max_results"), &OpenXRFbSpatialEntityQuery::get_max_results);
+ 	ClassDB::bind_method(D_METHOD("set_timeout", "seconds"), &OpenXRFbSpatialEntityQuery::set_timeout);
+@@ -71,6 +76,13 @@ void OpenXRFbSpatialEntityQuery::set_timeout(float p_timeout) {
+ 	timeout = p_timeout;
+ }
+ 
++void OpenXRFbSpatialEntityQuery::query_by_group(const String &p_group_uuid) {
++	query_type = QUERY_BY_GROUP;
++	group_uuid = p_group_uuid;
++	location = OpenXRFbSpatialEntity::STORAGE_CLOUD;
++	uuids.clear();
++}
++
+ void OpenXRFbSpatialEntityQuery::query_all() {
+ 	query_type = QUERY_ALL;
+ 	// Reset data used for other query types.
+@@ -127,6 +139,9 @@ Error OpenXRFbSpatialEntityQuery::execute() {
+ 		case QUERY_BY_UUID: {
+ 			succeeded = _execute_query_by_uuid();
+ 		} break;
++		case QUERY_BY_GROUP: {
++			succeeded = _execute_query_by_group();
++		} break;
+ 		case QUERY_BY_COMPONENT: {
+ 			succeeded = _execute_query_by_component();
+ 		} break;
+@@ -143,7 +158,7 @@ bool OpenXRFbSpatialEntityQuery::_execute_query_all() {
+ 		nullptr, // next
+ 		XR_SPACE_QUERY_ACTION_LOAD_FB, // queryAction
+ 		max_results, // maxResultsCount
+-		(XrDuration)(timeout * 1000000), // timeout
++		(XrDuration)(timeout * 1000000000.0), // timeout
+ 		nullptr, // filter
+ 		nullptr, // excludeFilter
+ 	};
+@@ -179,7 +194,7 @@ bool OpenXRFbSpatialEntityQuery::_execute_query_by_uuid() {
+ 		nullptr, // next
+ 		XR_SPACE_QUERY_ACTION_LOAD_FB, // queryAction
+ 		uuid_array.size(), // maxResultsCount
+-		(XrDuration)(timeout * 1000000), // timeout
++		(XrDuration)(timeout * 1000000000.0), // timeout
+ 		(XrSpaceFilterInfoBaseHeaderFB *)&filter, // filter
+ 		nullptr, // excludeFilter
+ 	};
+@@ -206,7 +221,7 @@ bool OpenXRFbSpatialEntityQuery::_execute_query_by_component() {
+ 		nullptr, // next
+ 		XR_SPACE_QUERY_ACTION_LOAD_FB, // queryAction
+ 		max_results, // maxResultsCount
+-		(XrDuration)(timeout * 1000000), // timeout
++		(XrDuration)(timeout * 1000000000.0), // timeout
+ 		(XrSpaceFilterInfoBaseHeaderFB *)&filter, // filter
+ 		nullptr, // excludeFilter
+ 	};
+@@ -215,7 +230,22 @@ bool OpenXRFbSpatialEntityQuery::_execute_query_by_component() {
+ 	return OpenXRFbSpatialEntityQueryExtension::get_singleton()->query_spatial_entities((XrSpaceQueryInfoBaseHeaderFB *)&query, &OpenXRFbSpatialEntityQuery::_results_callback, userdata);
+ }
+ 
+-void OpenXRFbSpatialEntityQuery::_results_callback(const Vector<XrSpaceQueryResultFB> &p_results, void *p_userdata) {
++bool OpenXRFbSpatialEntityQuery::_execute_query_by_group() {
++	String compact = group_uuid.replace("-", "");
++	ERR_FAIL_COND_V_MSG(compact.length() != 32 || !compact.is_valid_hex_number(false), false, "Invalid group UUID");
++	ERR_FAIL_COND_V_MSG(!std::isfinite(timeout) || timeout < 0.0f || timeout > 3600.0f || max_results == 0 || max_results > 50, false, "Invalid group query limits");
++	ERR_FAIL_COND_V_MSG(!OpenXRFbSpatialEntitySharingExtension::get_singleton()->is_spatial_entity_group_sharing_supported(), false, "Group sharing is not supported");
++	PackedByteArray bytes = compact.hex_decode();
++	XrSpaceStorageLocationFilterInfoFB location_filter = { XR_TYPE_SPACE_STORAGE_LOCATION_FILTER_INFO_FB, nullptr, XR_SPACE_STORAGE_LOCATION_CLOUD_FB };
++	XrSpaceGroupUuidFilterInfoMETA filter = { XR_TYPE_SPACE_GROUP_UUID_FILTER_INFO_META, &location_filter, {} };
++	memcpy(filter.groupUuid.data, bytes.ptr(), 16);
++	XrSpaceQueryInfoFB query = { XR_TYPE_SPACE_QUERY_INFO_FB, nullptr, XR_SPACE_QUERY_ACTION_LOAD_FB, max_results,
++		(XrDuration)(timeout * 1000000000.0), reinterpret_cast<XrSpaceFilterInfoBaseHeaderFB *>(&filter), nullptr };
++	auto *userdata = memnew(Ref<OpenXRFbSpatialEntityQuery>(this));
++	return OpenXRFbSpatialEntityQueryExtension::get_singleton()->query_spatial_entities(reinterpret_cast<XrSpaceQueryInfoBaseHeaderFB *>(&query), _results_callback, userdata);
++}
++
++void OpenXRFbSpatialEntityQuery::_results_callback(const Vector<XrSpaceQueryResultFB> &p_results, XrResult p_result, void *p_userdata) {
+ 	Ref<OpenXRFbSpatialEntityQuery> *userdata = (Ref<OpenXRFbSpatialEntityQuery> *)p_userdata;
+ 
+ 	Array results;
+@@ -225,6 +255,7 @@ void OpenXRFbSpatialEntityQuery::_results_callback(const Vector<XrSpaceQueryResu
+ 		results[i] = entity;
+ 	}
+ 
++	(*userdata)->emit_signal("openxr_fb_spatial_entity_query_completed_with_result", results, static_cast<int>(p_result));
+ 	(*userdata)->emit_signal("openxr_fb_spatial_entity_query_completed", results);
+ 
+ 	memdelete(userdata);
+diff --git a/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_extension.cpp b/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_extension.cpp
+index 3b97bf6..95737d5 100644
+--- a/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_extension.cpp
++++ b/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_extension.cpp
+@@ -112,6 +112,7 @@ void OpenXRFbSpatialEntityExtension::_on_process() {
+ 
+ 		XrResult result = xrLocateSpace(E.value.space, reinterpret_cast<XrSpace>(get_openxr_api()->get_play_space()), get_openxr_api()->get_predicted_display_time(), &location);
+ 		if (XR_FAILED(result)) {
++			E.value.tracker->invalidate_pose("default");
+ 			WARN_PRINT("OpenXR: failed to locate anchor " + E.key);
+ 			WARN_PRINT(get_openxr_api()->get_error_string(result));
+ 			continue;
+@@ -124,13 +125,7 @@ void OpenXRFbSpatialEntityExtension::_on_process() {
+ 
+ 			E.value.tracker->set_pose("default", transform, Vector3(), Vector3(), XRPose::XR_TRACKING_CONFIDENCE_HIGH);
+ 		} else {
+-			Ref<XRPose> default_pose = E.value.tracker->get_pose("default");
+-			if (default_pose.is_valid()) {
+-				// Set the tracking confidence to none, while maintaining the existing transform.
+-				default_pose->set_tracking_confidence(XRPose::XR_TRACKING_CONFIDENCE_NONE);
+-			} else {
+-				E.value.tracker->set_pose("default", Transform3D(), Vector3(), Vector3(), XRPose::XR_TRACKING_CONFIDENCE_NONE);
+-			}
++			E.value.tracker->invalidate_pose("default");
+ 		}
+ 	}
+ }
+diff --git a/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_query_extension.cpp b/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_query_extension.cpp
+index ff7ecd3..fb100b4 100644
+--- a/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_query_extension.cpp
++++ b/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_query_extension.cpp
+@@ -84,6 +84,14 @@ void OpenXRFbSpatialEntityQueryExtension::_on_instance_created(uint64_t instance
+ 	}
+ }
+ 
++void OpenXRFbSpatialEntityQueryExtension::_on_session_destroyed() {
++	auto pending = queries;
++	queries.clear();
++	for (const auto &entry : pending) {
++		entry.value.callback({}, XR_ERROR_SESSION_LOST, entry.value.userdata);
++	}
++}
++
+ void OpenXRFbSpatialEntityQueryExtension::_on_instance_destroyed() {
+ 	cleanup();
+ }
+@@ -112,11 +120,11 @@ bool OpenXRFbSpatialEntityQueryExtension::_on_event_polled(const void *event) {
+ bool OpenXRFbSpatialEntityQueryExtension::query_spatial_entities(const XrSpaceQueryInfoBaseHeaderFB *p_info, QueryCompleteCallback p_callback, void *p_userdata) {
+ 	XrAsyncRequestIdFB request_id = 0;
+ 
+-	const XrResult result = xrQuerySpacesFB(SESSION, p_info, &request_id);
++	const XrResult result = fb_spatial_entity_query_ext ? xrQuerySpacesFB(SESSION, p_info, &request_id) : XR_ERROR_FEATURE_UNSUPPORTED;
+ 	if (!XR_SUCCEEDED(result)) {
+ 		WARN_PRINT("xrQuerySpacesFB failed!");
+ 		WARN_PRINT(get_openxr_api()->get_error_string(result));
+-		p_callback({}, p_userdata);
++		p_callback({}, result, p_userdata);
+ 		return false;
+ 	}
+ 
+@@ -130,6 +138,7 @@ void OpenXRFbSpatialEntityQueryExtension::on_space_query_results(const XrEventDa
+ 		return;
+ 	}
+ 
++	QueryInfo *query = queries.getptr(event->requestId);
+ 	// Query the results that are now available using two-call idiom
+ 	XrSpaceQueryResultsFB queryResults{
+ 		XR_TYPE_SPACE_QUERY_RESULTS_FB, // type
+@@ -140,24 +149,26 @@ void OpenXRFbSpatialEntityQueryExtension::on_space_query_results(const XrEventDa
+ 	};
+ 	XrResult result = xrRetrieveSpaceQueryResultsFB(SESSION, event->requestId, &queryResults);
+ 	if (!XR_SUCCEEDED(result)) {
++		query->result = result;
+ 		WARN_PRINT("xrRetrieveSpaceQueryResultsFB failed to get result count!");
+ 		WARN_PRINT(get_openxr_api()->get_error_string(result));
+ 		return;
+ 	}
+ 
+-	QueryInfo *query = queries.getptr(event->requestId);
+-
+-	query->results.resize(queryResults.resultCountOutput);
++	Vector<XrSpaceQueryResultFB> batch;
++	batch.resize(queryResults.resultCountOutput);
+ 	queryResults.resultCapacityInput = queryResults.resultCountOutput;
+-	queryResults.results = query->results.ptrw();
++	queryResults.results = batch.ptrw();
+ 
+ 	result = xrRetrieveSpaceQueryResultsFB(SESSION, event->requestId, &queryResults);
+ 	if (!XR_SUCCEEDED(result)) {
+-		query->results.clear();
++		query->result = result;
+ 		WARN_PRINT("xrRetrieveSpaceQueryResultsFB failed to get results!");
+ 		WARN_PRINT(get_openxr_api()->get_error_string(result));
+ 		return;
+ 	}
++	batch.resize(queryResults.resultCountOutput);
++	query->results.append_array(batch);
+ }
+ 
+ void OpenXRFbSpatialEntityQueryExtension::on_space_query_complete(const XrEventDataSpaceQueryCompleteFB *event) {
+@@ -165,7 +176,7 @@ void OpenXRFbSpatialEntityQueryExtension::on_space_query_complete(const XrEventD
+ 		WARN_PRINT("Received unexpected XR_TYPE_EVENT_DATA_SPACE_QUERY_COMPLETE_FB");
+ 		return;
+ 	}
+-	QueryInfo *query = queries.getptr(event->requestId);
+-	query->callback(query->results, query->userdata);
++	QueryInfo query = queries[event->requestId];
+ 	queries.erase(event->requestId);
++	query.callback(query.results, XR_FAILED(event->result) ? event->result : query.result, query.userdata);
+ }
+diff --git a/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_sharing_extension.cpp b/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_sharing_extension.cpp
+index 2e42e4b..98d25ce 100644
+--- a/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_sharing_extension.cpp
++++ b/plugin/src/main/cpp/extensions/openxr_fb_spatial_entity_sharing_extension.cpp
+@@ -50,6 +50,8 @@ OpenXRFbSpatialEntitySharingExtension::OpenXRFbSpatialEntitySharingExtension() :
+ 	ERR_FAIL_COND_MSG(singleton != nullptr, "An OpenXRFbSpatialEntitySharingExtension singleton already exists.");
+ 
+ 	request_extensions[XR_FB_SPATIAL_ENTITY_SHARING_EXTENSION_NAME] = &fb_spatial_entity_sharing_ext;
++	request_extensions[XR_META_SPATIAL_ENTITY_SHARING_EXTENSION_NAME] = &meta_spatial_entity_sharing_ext;
++	request_extensions[XR_META_SPATIAL_ENTITY_GROUP_SHARING_EXTENSION_NAME] = &meta_spatial_entity_group_sharing_ext;
+ 	singleton = this;
+ }
+ 
+@@ -59,11 +61,42 @@ OpenXRFbSpatialEntitySharingExtension::~OpenXRFbSpatialEntitySharingExtension()
+ }
+ 
+ void OpenXRFbSpatialEntitySharingExtension::_bind_methods() {
++	ClassDB::bind_method(D_METHOD("is_spatial_entity_group_sharing_supported"), &OpenXRFbSpatialEntitySharingExtension::is_spatial_entity_group_sharing_supported);
+ 	ClassDB::bind_method(D_METHOD("is_spatial_entity_sharing_supported"), &OpenXRFbSpatialEntitySharingExtension::is_spatial_entity_sharing_supported);
+ }
+ 
+ void OpenXRFbSpatialEntitySharingExtension::cleanup() {
+ 	fb_spatial_entity_sharing_ext = false;
++	meta_spatial_entity_sharing_ext = false;
++	meta_spatial_entity_group_sharing_ext = false;
++	sharing_properties.supportsSpatialEntitySharing = XR_FALSE;
++	group_properties.supportsSpatialEntityGroupSharing = XR_FALSE;
++}
++
++void OpenXRFbSpatialEntitySharingExtension::_on_session_destroyed() {
++	// Complete pending callbacks so retained entities and callers do not hang on session loss.
++	auto pending = requests;
++	requests.clear();
++	for (const auto &entry : pending) {
++		entry.value.callback(XR_ERROR_SESSION_LOST, entry.value.userdata);
++	}
++}
++
++uint64_t OpenXRFbSpatialEntitySharingExtension::_set_system_properties_and_get_next_pointer(void *p_next_pointer) {
++	if (meta_spatial_entity_sharing_ext) {
++		sharing_properties.next = p_next_pointer;
++		p_next_pointer = &sharing_properties;
++	}
++	if (meta_spatial_entity_group_sharing_ext) {
++		group_properties.next = p_next_pointer;
++		p_next_pointer = &group_properties;
++	}
++	return reinterpret_cast<uint64_t>(p_next_pointer);
++}
++
++bool OpenXRFbSpatialEntitySharingExtension::is_spatial_entity_group_sharing_supported() const {
++	return meta_spatial_entity_sharing_ext && meta_spatial_entity_group_sharing_ext &&
++			sharing_properties.supportsSpatialEntitySharing && group_properties.supportsSpatialEntityGroupSharing;
+ }
+ 
+ Dictionary OpenXRFbSpatialEntitySharingExtension::_get_requested_extensions(uint64_t p_xr_version) {
+@@ -76,6 +109,9 @@ Dictionary OpenXRFbSpatialEntitySharingExtension::_get_requested_extensions(uint
+ }
+ 
+ void OpenXRFbSpatialEntitySharingExtension::_on_instance_created(uint64_t instance) {
++	if (meta_spatial_entity_sharing_ext && !initialize_meta_spatial_entity_sharing_extension((XrInstance)instance)) {
++		meta_spatial_entity_sharing_ext = false;
++	}
+ 	if (fb_spatial_entity_sharing_ext) {
+ 		bool result = initialize_fb_spatial_entity_sharing_extension((XrInstance)instance);
+ 		if (!result) {
+@@ -95,7 +131,32 @@ bool OpenXRFbSpatialEntitySharingExtension::initialize_fb_spatial_entity_sharing
+ 	return true;
+ }
+ 
++bool OpenXRFbSpatialEntitySharingExtension::initialize_meta_spatial_entity_sharing_extension(const XrInstance &p_instance) {
++	GDEXTENSION_INIT_XR_FUNC_V(xrShareSpacesMETA);
++	return true;
++}
++
++bool OpenXRFbSpatialEntitySharingExtension::share_spaces_with_group(const XrShareSpacesInfoMETA *p_info, ShareSpacesCompleteCallback p_callback, void *p_userdata) {
++	XrAsyncRequestIdFB request_id = 0;
++	XrResult result = is_spatial_entity_group_sharing_supported() ? xrShareSpacesMETA(SESSION, p_info, &request_id) : XR_ERROR_FEATURE_UNSUPPORTED;
++	if (XR_FAILED(result)) {
++		p_callback(result, p_userdata);
++		return false;
++	}
++	requests[request_id] = RequestInfo(p_callback, p_userdata);
++	return true;
++}
++
+ bool OpenXRFbSpatialEntitySharingExtension::_on_event_polled(const void *event) {
++	if (static_cast<const XrEventDataBuffer *>(event)->type == XR_TYPE_EVENT_DATA_SHARE_SPACES_COMPLETE_META) {
++		const auto *completed = static_cast<const XrEventDataShareSpacesCompleteMETA *>(event);
++		if (requests.has(completed->requestId)) {
++			RequestInfo request = requests[completed->requestId];
++			requests.erase(completed->requestId);
++			request.callback(completed->result, request.userdata);
++		}
++		return true;
++	}
+ 	if (static_cast<const XrEventDataBuffer *>(event)->type == XR_TYPE_EVENT_DATA_SPACE_SHARE_COMPLETE_FB) {
+ 		on_space_share_complete((const XrEventDataSpaceShareCompleteFB *)event);
+ 		return true;
+diff --git a/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity.h b/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity.h
+index afa0cf1..563c01d 100644
+--- a/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity.h
++++ b/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity.h
+@@ -74,6 +74,7 @@ protected:
+ 	static void _on_save_to_storage(XrResult p_result, XrSpaceStorageLocationFB p_location, void *p_userdata);
+ 	static void _on_erase_from_storage(XrResult p_result, XrSpaceStorageLocationFB p_location, void *p_userdata);
+ 	static void _on_share_with_users(XrResult p_result, void *p_userdata);
++	static void _on_share_with_group(XrResult p_result, void *p_userdata);
+ 
+ 	String _to_string() const;
+ 
+@@ -108,6 +109,7 @@ public:
+ 	void save_to_storage(StorageLocation p_location = STORAGE_LOCAL);
+ 	void erase_from_storage(StorageLocation p_location = STORAGE_LOCAL);
+ 	void share_with_users(const TypedArray<OpenXRFbSpatialEntityUser> &p_users);
++	bool share_with_group(const String &p_group_uuid);
+ 	void destroy();
+ 
+ 	static XrSpaceStorageLocationFB to_openxr_storage_location(StorageLocation p_location);
+diff --git a/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity_query.h b/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity_query.h
+index 571de77..31bf647 100644
+--- a/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity_query.h
++++ b/plugin/src/main/cpp/include/classes/openxr_fb_spatial_entity_query.h
+@@ -44,6 +44,7 @@ public:
+ 		QUERY_ALL,
+ 		QUERY_BY_UUID,
+ 		QUERY_BY_COMPONENT,
++		QUERY_BY_GROUP,
+ 	};
+ 
+ private:
+@@ -53,6 +54,7 @@ private:
+ 	uint32_t max_results = 25;
+ 	float timeout = 0.0f;
+ 	Array uuids;
++	String group_uuid;
+ 
+ 	bool executed = false;
+ 
+@@ -62,6 +64,7 @@ protected:
+ 	bool _execute_query_all();
+ 	bool _execute_query_by_uuid();
+ 	bool _execute_query_by_component();
++	bool _execute_query_by_group();
+ 
+ public:
+ 	void set_max_results(uint32_t p_max_results);
+@@ -71,6 +74,7 @@ public:
+ 	float get_timeout() const;
+ 
+ 	void query_all();
++	void query_by_group(const String &p_group_uuid);
+ 	void query_by_uuid(Array p_uuids, OpenXRFbSpatialEntity::StorageLocation p_location = OpenXRFbSpatialEntity::STORAGE_LOCAL);
+ 	void query_by_component(OpenXRFbSpatialEntity::ComponentType p_component_type, OpenXRFbSpatialEntity::StorageLocation p_location = OpenXRFbSpatialEntity::STORAGE_LOCAL);
+ 
+@@ -82,7 +86,7 @@ public:
+ 	Error execute();
+ 	bool is_executed() const;
+ 
+-	static void _results_callback(const Vector<XrSpaceQueryResultFB> &p_results, void *p_userdata);
++	static void _results_callback(const Vector<XrSpaceQueryResultFB> &p_results, XrResult p_result, void *p_userdata);
+ };
+ } // namespace godot
+ 
+diff --git a/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_query_extension.h b/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_query_extension.h
+index a130486..7c029d1 100644
+--- a/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_query_extension.h
++++ b/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_query_extension.h
+@@ -47,6 +47,7 @@ public:
+ 	Dictionary _get_requested_extensions(uint64_t p_xr_version) override;
+ 	void _on_instance_created(uint64_t instance) override;
+ 	void _on_instance_destroyed() override;
++	void _on_session_destroyed() override;
+ 	virtual bool _on_event_polled(const void *event) override;
+ 
+ 	bool is_spatial_entity_query_supported() {
+@@ -55,7 +56,7 @@ public:
+ 
+ 	static OpenXRFbSpatialEntityQueryExtension *get_singleton();
+ 
+-	typedef void (*QueryCompleteCallback)(const Vector<XrSpaceQueryResultFB> &p_results, void *p_userdata);
++	typedef void (*QueryCompleteCallback)(const Vector<XrSpaceQueryResultFB> &p_results, XrResult p_result, void *p_userdata);
+ 
+ 	// Attempts to query spatial entities given an XrSpaceQueryInfoFB. The callback will run to
+ 	// deliver results when they are available.
+@@ -88,6 +89,7 @@ private:
+ 		QueryCompleteCallback callback = nullptr;
+ 		void *userdata = nullptr;
+ 		Vector<XrSpaceQueryResultFB> results;
++		XrResult result = XR_SUCCESS;
+ 
+ 		QueryInfo() {}
+ 
+diff --git a/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_sharing_extension.h b/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_sharing_extension.h
+index d09a624..f39cbf7 100644
+--- a/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_sharing_extension.h
++++ b/plugin/src/main/cpp/include/extensions/openxr_fb_spatial_entity_sharing_extension.h
+@@ -46,12 +46,16 @@ public:
+ 
+ 	void _on_instance_created(uint64_t instance) override;
+ 	void _on_instance_destroyed() override;
++	void _on_session_destroyed() override;
++	uint64_t _set_system_properties_and_get_next_pointer(void *p_next_pointer) override;
++	bool is_spatial_entity_group_sharing_supported() const;
+ 
+ 	bool is_spatial_entity_sharing_supported() {
+ 		return fb_spatial_entity_sharing_ext;
+ 	}
+ 
+ 	typedef void (*ShareSpacesCompleteCallback)(XrResult p_result, void *p_userdata);
++	bool share_spaces_with_group(const XrShareSpacesInfoMETA *p_info, ShareSpacesCompleteCallback p_callback, void *p_userdata);
+ 
+ 	bool share_spaces(const XrSpaceShareInfoFB *p_info, ShareSpacesCompleteCallback p_callback, void *p_userdata);
+ 
+@@ -71,6 +75,11 @@ private:
+ 			(const XrSpaceShareInfoFB *), info,
+ 			(XrAsyncRequestIdFB *), requestId);
+ 
++	EXT_PROTO_XRRESULT_FUNC3(xrShareSpacesMETA,
++			(XrSession), session,
++			(const XrShareSpacesInfoMETA *), info,
++			(XrAsyncRequestIdFB *), requestId);
++	bool initialize_meta_spatial_entity_sharing_extension(const XrInstance &p_instance);
+ 	bool initialize_fb_spatial_entity_sharing_extension(const XrInstance &instance);
+ 	void on_space_share_complete(const XrEventDataSpaceShareCompleteFB *event);
+ 
+@@ -95,4 +104,8 @@ private:
+ 	static OpenXRFbSpatialEntitySharingExtension *singleton;
+ 
+ 	bool fb_spatial_entity_sharing_ext = false;
++	bool meta_spatial_entity_sharing_ext = false;
++	bool meta_spatial_entity_group_sharing_ext = false;
++	XrSystemSpatialEntitySharingPropertiesMETA sharing_properties = { XR_TYPE_SYSTEM_SPATIAL_ENTITY_SHARING_PROPERTIES_META, nullptr, XR_FALSE };
++	XrSystemSpatialEntityGroupSharingPropertiesMETA group_properties = { XR_TYPE_SYSTEM_SPATIAL_ENTITY_GROUP_SHARING_PROPERTIES_META, nullptr, XR_FALSE };
+ };
+diff --git a/plugin/src/main/cpp/register_types.cpp b/plugin/src/main/cpp/register_types.cpp
+index a980b1b..dbbd56a 100644
+--- a/plugin/src/main/cpp/register_types.cpp
++++ b/plugin/src/main/cpp/register_types.cpp
+@@ -434,6 +434,9 @@ void initialize_plugin_module(ModuleInitializationLevel p_level) {
+ 			_register_extension_as_singleton(OpenXRFbColorSpaceExtension::get_singleton());
+ 			_register_extension_as_singleton(OpenXRFbSceneCaptureExtension::get_singleton());
+ 			_register_extension_as_singleton(OpenXRFbSpatialEntityExtension::get_singleton());
++			if (_get_bool_project_setting("xr/openxr/extensions/meta/anchor_sharing")) {
++				_register_extension_as_singleton(OpenXRFbSpatialEntitySharingExtension::get_singleton());
++			}
+ 			_register_extension_as_singleton(OpenXRFbSpatialEntityStorageExtension::get_singleton());
+ 			_register_extension_as_singleton(OpenXRFbSpatialEntityQueryExtension::get_singleton());
+ 			_register_extension_as_singleton(OpenXRFbSpatialEntityContainerExtension::get_singleton());

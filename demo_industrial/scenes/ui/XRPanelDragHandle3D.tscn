@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dhi3d247aeyn7"]
+
+[ext_resource type="Script" uid="uid://dg37ehw1j4qfc" path="res://scripts/ui/xr_panel_drag_handle_3d.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dhjimtb044ldy" path="res://scenes/xr/XRRoomPlacementBody3D.tscn" id="2"]
+[ext_resource type="Script" uid="uid://b1h134on0edbu" path="res://scripts/ui/xr_pointer_area.gd" id="3"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_body"]
+size = Vector2(1.1, 0.18)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hit"]
+size = Vector3(1.1, 0.18, 0.12)
+
+[node name="XRPanelDragHandle3D" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_body")
+
+[node name="Label" type="Label3D" parent="."]
+text = "⠿  PINCH E TRASCINA"
+position = Vector3(0, 0, 0.025)
+render_priority = 10
+font_size = 26
+outline_size = 2
+pixel_size = 0.0026
+
+[node name="HitArea" type="Area3D" parent="."]
+collision_layer = 4194304
+collision_mask = 0
+script = ExtResource("3")
+_meta = {
+"default_collision_layer": 4194304
+}
+
+[node name="Shape" type="CollisionShape3D" parent="HitArea"]
+shape = SubResource("BoxShape3D_hit")
+
+[node name="RoomBody" parent="." instance=ExtResource("2")]
+top_level = true

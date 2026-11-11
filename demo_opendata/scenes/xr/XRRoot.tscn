@@ -1,0 +1,195 @@
+[gd_scene format=3 uid="uid://bq026x4c4nd82"]
+
+[ext_resource type="Script" path="res://scripts/xr/xr_root.gd" id="1_xrroot"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="4_pointer"]
+[ext_resource type="PackedScene" path="res://scenes/xr/SceneAnchor.tscn" id="5_scene_anchor"]
+[ext_resource type="PackedScene" path="res://scenes/xr/SpatialAnchor.tscn" id="6_spatial_anchor"]
+[ext_resource type="Script" path="res://scripts/xr/xr_intent_pointer_3d.gd" id="7_intent_pointer"]
+
+[sub_resource type="ProceduralSkyMaterial" id="StudioSkyMaterial"]
+sky_top_color = Color(0.58, 0.65, 0.74, 1)
+sky_horizon_color = Color(0.84, 0.86, 0.88, 1)
+ground_bottom_color = Color(0.16, 0.18, 0.2, 1)
+ground_horizon_color = Color(0.7, 0.72, 0.74, 1)
+
+[sub_resource type="Sky" id="StudioSky"]
+radiance_size = 2
+sky_material = SubResource("StudioSkyMaterial")
+
+[sub_resource type="Environment" id="Environment_passthrough"]
+background_mode = 1
+background_color = Color(0.012, 0.016, 0.022, 1)
+sky = SubResource("StudioSky")
+ambient_light_source = 3
+ambient_light_color = Color(0.75, 0.78, 0.82, 1)
+ambient_light_energy = 0.65
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hand_mesh"]
+albedo_color = Color(0.78, 0.86, 0.95, 1)
+roughness = 0.68
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pointer_idle"]
+albedo_color = Color(0.15, 0.85, 1, 1)
+roughness = 0.42
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pointer_hit"]
+albedo_color = Color(0.25, 1, 0.72, 1)
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pointer_target"]
+albedo_color = Color(0.25, 1, 0.72, 1)
+roughness = 0.35
+
+[node name="XrRoot" type="Node3D" unique_id=1508902139 groups=["xr_scene_services"]]
+script = ExtResource("1_xrroot")
+enable_passthrough = true
+enable_scene_api = true
+enable_spatial_anchors = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_passthrough")
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="KeyLight" type="DirectionalLight3D" parent="Lighting"]
+rotation_degrees = Vector3(-45, -30, 0)
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 1.35
+
+[node name="FillLight" type="DirectionalLight3D" parent="Lighting"]
+rotation_degrees = Vector3(-25, 105, 0)
+light_color = Color(0.83, 0.91, 1, 1)
+light_energy = 0.7
+
+[node name="RimLight" type="DirectionalLight3D" parent="Lighting"]
+rotation_degrees = Vector3(-35, -155, 0)
+light_color = Color(1, 0.97, 0.92, 1)
+light_energy = 0.8
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="SceneManager" type="OpenXRFbSceneManager" parent="XROrigin3D"]
+default_scene = ExtResource("5_scene_anchor")
+auto_create = false
+visible = false
+
+[node name="SpatialAnchorManager" type="OpenXRFbSpatialAnchorManager" parent="XROrigin3D"]
+scene = ExtResource("6_spatial_anchor")
+
+[node name="LeftHandTracker" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/left"
+
+[node name="LeftHandSkeleton" type="Skeleton3D" parent="XROrigin3D/LeftHandTracker"]
+
+[node name="LeftHandMesh" type="OpenXRFbHandTrackingMesh" parent="XROrigin3D/LeftHandTracker/LeftHandSkeleton"]
+material = SubResource("StandardMaterial3D_hand_mesh")
+bones/0/name = "LeftPalm"
+bones/1/name = "LeftHand"
+bones/2/name = "LeftThumbMetacarpal"
+bones/3/name = "LeftThumbProximal"
+bones/4/name = "LeftThumbDistal"
+bones/5/name = "LeftThumbTip"
+bones/6/name = "LeftIndexMetacarpal"
+bones/7/name = "LeftIndexProximal"
+bones/8/name = "LeftIndexIntermediate"
+bones/9/name = "LeftIndexDistal"
+bones/10/name = "LeftIndexTip"
+bones/11/name = "LeftMiddleMetacarpal"
+bones/12/name = "LeftMiddleProximal"
+bones/13/name = "LeftMiddleIntermediate"
+bones/14/name = "LeftMiddleDistal"
+bones/15/name = "LeftMiddleTip"
+bones/16/name = "LeftRingMetacarpal"
+bones/17/name = "LeftRingProximal"
+bones/18/name = "LeftRingIntermediate"
+bones/19/name = "LeftRingDistal"
+bones/20/name = "LeftRingTip"
+bones/21/name = "LeftLittleMetacarpal"
+bones/22/name = "LeftLittleProximal"
+bones/23/name = "LeftLittleIntermediate"
+bones/24/name = "LeftLittleDistal"
+bones/25/name = "LeftLittleTip"
+
+[node name="LeftHandModifier" type="XRHandModifier3D" parent="XROrigin3D/LeftHandTracker/LeftHandSkeleton/LeftHandMesh"]
+hand_tracker = &"/user/hand_tracker/left"
+
+[node name="WristMenuAnchor" type="Node3D" parent="XROrigin3D/LeftHandTracker" groups=["left_wrist_anchor"]]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 0.02, -0.08, -0.12)
+
+[node name="RightHandTracker" type="XRNode3D" parent="XROrigin3D"]
+tracker = &"/user/hand_tracker/right"
+
+[node name="RightHandSkeleton" type="Skeleton3D" parent="XROrigin3D/RightHandTracker"]
+
+[node name="RightHandMesh" type="OpenXRFbHandTrackingMesh" parent="XROrigin3D/RightHandTracker/RightHandSkeleton"]
+hand = 1
+material = SubResource("StandardMaterial3D_hand_mesh")
+bones/0/name = "RightPalm"
+bones/1/name = "RightHand"
+bones/2/name = "RightThumbMetacarpal"
+bones/3/name = "RightThumbProximal"
+bones/4/name = "RightThumbDistal"
+bones/5/name = "RightThumbTip"
+bones/6/name = "RightIndexMetacarpal"
+bones/7/name = "RightIndexProximal"
+bones/8/name = "RightIndexIntermediate"
+bones/9/name = "RightIndexDistal"
+bones/10/name = "RightIndexTip"
+bones/11/name = "RightMiddleMetacarpal"
+bones/12/name = "RightMiddleProximal"
+bones/13/name = "RightMiddleIntermediate"
+bones/14/name = "RightMiddleDistal"
+bones/15/name = "RightMiddleTip"
+bones/16/name = "RightRingMetacarpal"
+bones/17/name = "RightRingProximal"
+bones/18/name = "RightRingIntermediate"
+bones/19/name = "RightRingDistal"
+bones/20/name = "RightRingTip"
+bones/21/name = "RightLittleMetacarpal"
+bones/22/name = "RightLittleProximal"
+bones/23/name = "RightLittleIntermediate"
+bones/24/name = "RightLittleDistal"
+bones/25/name = "RightLittleTip"
+
+[node name="RightHandModifier" type="XRHandModifier3D" parent="XROrigin3D/RightHandTracker/RightHandSkeleton/RightHandMesh"]
+hand_tracker = &"/user/hand_tracker/right"
+
+[node name="LeftHandController" type="XRController3D" parent="XROrigin3D" groups=["left_hand_controller"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.1, -0.55)
+tracker = &"left_hand"
+pose = &"aim"
+
+[node name="RightHandController" type="XRController3D" parent="XROrigin3D" groups=["right_hand_controller"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.1, -0.55)
+tracker = &"right_hand"
+pose = &"aim"
+
+[node name="FunctionPointer" parent="XROrigin3D/RightHandController" instance=ExtResource("4_pointer")]
+script = ExtResource("7_intent_pointer")
+distance = 4.5
+show_laser = 1
+laser_length = 1
+laser_material = SubResource("StandardMaterial3D_pointer_idle")
+laser_hit_material = SubResource("StandardMaterial3D_pointer_hit")
+show_target = true
+target_radius = 0.045
+target_material = SubResource("StandardMaterial3D_pointer_target")
+collide_with_areas = true
+suppress_mask = 0
+
+[node name="FunctionPointer" parent="XROrigin3D/LeftHandController" instance=ExtResource("4_pointer")]
+script = ExtResource("7_intent_pointer")
+distance = 4.5
+show_laser = 1
+laser_length = 1
+laser_material = SubResource("StandardMaterial3D_pointer_idle")
+laser_hit_material = SubResource("StandardMaterial3D_pointer_hit")
+show_target = true
+target_radius = 0.045
+target_material = SubResource("StandardMaterial3D_pointer_target")
+collide_with_areas = true
+suppress_mask = 0

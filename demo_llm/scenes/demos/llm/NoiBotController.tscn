@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnoibotcontroller1"]
+
+[ext_resource type="Script" path="res://scripts/demos/llm/noibot_controller.gd" id="1_noibot"]
+
+[node name="NoiBotController" type="Node3D"]
+script = ExtResource("1_noibot")
+
+[node name="Player" type="AudioStreamPlayer3D" parent="."]
+position = Vector3(0, 0.85, 0)
+max_distance = 10.0

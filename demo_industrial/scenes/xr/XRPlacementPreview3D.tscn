@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dyo6mhmdixcod"]
+
+[ext_resource type="Script" path="res://scripts/xr/xr_placement_preview_3d.gd" id="1_preview"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_placement_target"]
+top_radius = 0.25
+bottom_radius = 0.25
+height = 0.01
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_placement_target"]
+albedo_color = Color(0.18, 0.78, 1, 1)
+roughness = 0.45
+emission_enabled = true
+emission = Color(0.12, 0.5, 0.85, 1)
+emission_energy_multiplier = 0.18
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_placement_center"]
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.014
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_placement_center"]
+albedo_color = Color(0.72, 0.95, 1, 1)
+roughness = 0.32
+emission_enabled = true
+emission = Color(0.3, 0.82, 1, 1)
+emission_energy_multiplier = 0.35
+
+[node name="PlacementTarget" type="MeshInstance3D"]
+visible = false
+mesh = SubResource("CylinderMesh_placement_target")
+surface_material_override/0 = SubResource("StandardMaterial3D_placement_target")
+script = ExtResource("1_preview")
+
+[node name="PlacementCenter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.004, 0)
+mesh = SubResource("CylinderMesh_placement_center")
+surface_material_override/0 = SubResource("StandardMaterial3D_placement_center")

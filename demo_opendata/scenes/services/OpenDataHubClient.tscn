@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/services/open_data_hub_client.gd" id="1_client"]
+
+[node name="OpenDataHubClient" type="Node"]
+script = ExtResource("1_client")
+measurements_url = "https://mobility.api.opendatahub.com/v2/flat,node/IndoorStation/*/latest?where=and(sorigin.eq.%22NOI%22,or(scode.eq.%22NOI:FreeSoftwareLab-Temperature%22,scode.eq.%22NOI:NOI-A1-Floor1-CO2%22),or(tname.eq.%22air-temperature%22,tname.eq.%22air-humidity%22,tname.eq.%22co2-ppm%22))&limit=20&shownull=true&select=scode,sname,tname,tunit,mvalue,mvalidtime"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="PollTimer" type="Timer" parent="."]
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_request_completed"]
+[connection signal="timeout" from="PollTimer" to="." method="_request_measurements"]

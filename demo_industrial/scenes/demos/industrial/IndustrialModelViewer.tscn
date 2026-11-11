@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://bjetehldprj8s"]
+
+[ext_resource type="Script" path="res://scripts/demos/industrial_model_viewer.gd" id="1_viewer"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelBounds.tscn" id="2_bounds"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelAnimator.tscn" id="3_animator"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelLabel3D.tscn" id="4_label"]
+[ext_resource type="PackedScene" path="res://scenes/demos/industrial/IndustrialModelLoader.tscn" id="5_loader"]
+
+[node name="IndustrialModelViewer" type="Node3D" unique_id=346099699]
+script = ExtResource("1_viewer")
+
+[node name="IndustrialModelBounds" parent="." instance=ExtResource("2_bounds")]
+
+[node name="IndustrialModelAnimator" parent="." instance=ExtResource("3_animator")]
+
+[node name="IndustrialModelLabel3D" parent="." instance=ExtResource("4_label")]
+
+[node name="IndustrialModelLoader" parent="." instance=ExtResource("5_loader")]
+
+[node name="ModelAnchor" type="Node3D" parent="."]
+
+[node name="CurrentModel" type="Node3D" parent="ModelAnchor"]
+
+[connection signal="model_failed" from="IndustrialModelLoader" to="." method="_on_model_resource_failed"]
+[connection signal="model_ready" from="IndustrialModelLoader" to="." method="_on_model_resource_ready"]

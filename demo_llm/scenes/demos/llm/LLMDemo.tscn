@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://btwfai67mvvd6"]
+
+[ext_resource type="Script" path="res://scripts/demos/llm_demo.gd" id="1_demo"]
+[ext_resource type="PackedScene" uid="uid://o6t5temht7ei" path="res://scenes/demos/llm/VoiceAssistantPanel.tscn" id="2_panel"]
+[ext_resource type="PackedScene" path="res://scenes/services/XRAgentClient.tscn" id="3_agent"]
+[ext_resource type="PackedScene" uid="uid://brmlei3026hk1" path="res://scenes/ui/DemoButton3D.tscn" id="4_button"]
+[ext_resource type="PackedScene" path="res://scenes/services/VideoFrameStreamer.tscn" id="5_video_streamer"]
+[ext_resource type="PackedScene" path="res://scenes/services/PassthroughCameraCapture.tscn" id="6_camera_capture"]
+[ext_resource type="PackedScene" path="res://scenes/demos/llm/LLMSnapshotController.tscn" id="7_snapshot"]
+
+[ext_resource type="PackedScene" path="res://scenes/demos/llm/AssistantRobot.tscn" id="8_robot"]
+
+[node name="LLMDemo" type="Node3D" unique_id=1775631904]
+script = ExtResource("1_demo")
+
+[node name="TechnicalNodes" type="Node" parent="."]
+
+[node name="XRAgentClient" parent="TechnicalNodes" instance=ExtResource("3_agent")]
+
+[node name="PassthroughCameraCapture" parent="TechnicalNodes" instance=ExtResource("6_camera_capture")]
+
+[node name="VideoFrameStreamer" parent="TechnicalNodes" instance=ExtResource("5_video_streamer")]
+
+[node name="LLMSnapshotController" parent="TechnicalNodes" instance=ExtResource("7_snapshot")]
+agent_client_node_path = NodePath("../XRAgentClient")
+camera_capture_node_path = NodePath("../PassthroughCameraCapture")
+assistant_panel_node_path = NodePath("../../VoiceAssistantPanel")
+
+[node name="VoiceAssistantPanel" parent="." instance=ExtResource("2_panel")]
+transform = Transform3D(0.86, 0, 0, 0, 0.86, 0, 0, 0, 0.86, 0, 1.42, -2.35)
+
+[node name="BackButton" parent="VoiceAssistantPanel" instance=ExtResource("4_button")]
+transform = Transform3D(0.52, 0, 0, 0, 0.52, 0, 0, 0, 0.52, 0.58, -0.85, 0.04)
+demo_id = "menu"
+title_text = "Esci"
+subtitle_text = "Torna alle esperienze"
+accent_color = Color(0.42, 0.48, 0.55, 1)
+
+[node name="RobotButton" parent="VoiceAssistantPanel" instance=ExtResource("4_button")]
+position = Vector3(0, -0.58, 0.04)
+scale = Vector3(1.2, 0.58, 0.58)
+demo_id = "robot"
+title_text = "NoiBot"
+subtitle_text = "Aggiungi e posiziona"
+accent_color = Color(0.3, 0.78, 0.68, 1)
+
+[node name="AssistantRobot" parent="." instance=ExtResource("8_robot")]
+button_node_path = NodePath("../VoiceAssistantPanel/RobotButton")
+
+[connection signal="connected" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_connected"]
+[connection signal="disconnected" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_disconnected"]
+[connection signal="error_received" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_error_received"]
+[connection signal="response_delta_received" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_response_delta_received"]
+[connection signal="response_received" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_response_received"]
+[connection signal="status_changed" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_status_changed"]
+[connection signal="snapshot_requested" from="TechnicalNodes/XRAgentClient" to="TechnicalNodes/LLMSnapshotController" method="_on_agent_snapshot_requested"]
+[connection signal="transcript_received" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_transcript_received"]
+[connection signal="turn_committing" from="TechnicalNodes/XRAgentClient" to="." method="_on_agent_turn_committing"]
+[connection signal="pressed" from="VoiceAssistantPanel/BackButton" to="." method="_on_back_button_pressed"]
