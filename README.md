@@ -15,7 +15,7 @@ pushed automatically by its publish pipeline.
 | Folder | What it is |
 | --- | --- |
 | `xr-demo-suite/` | Godot 4.7 OpenXR app: main menu, industrial catalog with GLB showcase, NOI twin demo, shared (multi-headset) room, voice assistant UI |
-| `demo_industrial/` | Standalone build of the industrial catalog demo (no main menu, exits on "Esci") |
+| `demo_industrial/` | Standalone build of the industrial catalog demo (no main menu or exit button; quit from the Quest system menu) |
 | `demo_opendata/` | Standalone build of the NOI digital twin / Open Data Hub demo |
 | `demo_llm/` | Standalone build of the voice + vision assistant demo |
 | `xr-demo-server/` | `xr-agent-proxy`: FastAPI/WebSocket proxy between the Quest and STT / LLM-Vision / TTS providers, including the XR "what am I looking at?" snapshot tool loop |
