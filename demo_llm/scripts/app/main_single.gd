@@ -33,16 +33,19 @@ func _load_demo() -> void:
 
 
 func _hide_exit_button(demo: Node) -> void:
-	# Nelle standalone l'uscita avviene dal menu di sistema di Quest: il
-	# pulsante "Menu"/"Esci" della suite resta nel file di scena ma non si
-	# vede e non e' premibile, cosi' nessuno esce per sbaglio durante una demo.
-	var back := demo.find_child("BackButton", true, false)
-	if back == null:
-		return
-	back.visible = false
-	for area in back.find_children("HitArea", "Area3D", true, false):
-		(area as Area3D).monitorable = false
-		(area as Area3D).input_ray_pickable = false
+	# Nelle standalone l'uscita avviene dal menu di sistema di Quest: ogni
+	# pulsante di uscita della suite (BackButton nell'InfoPanel e il "Menu"
+	# del wrist menu industriale, tutti con demo_id "menu") resta nel file di
+	# scena ma non si vede e non e' premibile, cosi' nessuno esce per sbaglio.
+	# L'InteractiveCollisionController3D rispetta la visibilita': un nodo
+	# nascosto resta non interattivo anche quando il pannello si riapre.
+	for node in demo.find_children("*", "Node3D", true, false):
+		if node.get("demo_id") != "menu" and String(node.name) != "BackButton":
+			continue
+		node.visible = false
+		for area in node.find_children("HitArea", "Area3D", true, false):
+			(area as Area3D).monitorable = false
+			(area as Area3D).input_ray_pickable = false
 
 
 func _on_back_requested() -> void:
